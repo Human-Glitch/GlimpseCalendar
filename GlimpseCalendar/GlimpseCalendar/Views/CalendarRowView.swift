@@ -17,8 +17,9 @@ struct CalendarRowView: View {
 	
 	var body: some View {
 		ScrollView(.horizontal){
-			HStack(alignment: .center) {
-				Spacer(minLength: 15)
+			HStack(alignment: .center, spacing: 1) {
+				Spacer(minLength: 1)
+				
 				ForEach(calendarItems[row]!) { calendarItem in
 					calendarItem
 						.setModifiers(selectedRow: selectedRow, row: row)
@@ -28,7 +29,8 @@ struct CalendarRowView: View {
 							selectedItemId = calendarItem.id
 						}
 				}
-				Spacer(minLength: 10)
+				
+				Spacer(minLength: 1)
 			}
 			.scrollTargetLayout()
 		}
