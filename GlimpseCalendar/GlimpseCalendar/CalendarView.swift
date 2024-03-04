@@ -12,7 +12,7 @@ struct CalendarView: View {
 	@State var selectedItem: CalendarItemView?
 	@State var selectedItemId: UUID?
 	
-	let calendarItems: [Int: [CalendarItemView]] =
+	let calendarRows: [Int: [CalendarItemView]] =
 	[
 		1:
 		[
@@ -53,6 +53,12 @@ struct CalendarView: View {
 			CalendarItemView(day: 26),
 			CalendarItemView(day: 27),
 			CalendarItemView(day: 28)
+		],
+		5:
+		[
+			CalendarItemView(day: 29),
+			CalendarItemView(day: 30),
+			CalendarItemView(day: 31)
 		]
 	]
 	
@@ -68,79 +74,16 @@ struct CalendarView: View {
 					selectedItemId = nil
 				}
 			
-			ScrollView {
-				ScrollView(.horizontal){
-					HStack(alignment: .center) {
-						Spacer(minLength: 15)
-						ForEach(calendarItems[1]!) { calendarItem in
-							calendarItem
-								.setModifiers(selectedRow: selectedRow, row: 1)
-								.onTapGesture {
-									selectedRow = 1
-									selectedItem = calendarItem
-									selectedItemId = calendarItem.id
-								}
-						}
-						Spacer(minLength: 10)
-					}
-					.scrollTargetLayout()
-				}
-				.scrollPosition(id: $selectedItemId, anchor: .center)
-				
-				ScrollView(.horizontal){
-					HStack(alignment: .center) {
-						Spacer(minLength: 15)
-						ForEach(calendarItems[2]!) { calendarItem in
-							calendarItem
-								.setModifiers(selectedRow: selectedRow, row: 2)
-								.onTapGesture {
-									selectedRow = 2
-									selectedItem = calendarItem
-									selectedItemId = calendarItem.id
-								}
-						}
-						Spacer(minLength: 10)
-					}
-					.scrollTargetLayout()
-				}
-				.scrollPosition(id: $selectedItemId, anchor: .center)
-				
-				ScrollView(.horizontal){
-					HStack(alignment: .center) {
-						Spacer(minLength: 15)
-						ForEach(calendarItems[3]!) { calendarItem in
-							calendarItem
-								.setModifiers(selectedRow: selectedRow, row: 3)
-								.onTapGesture {
-									selectedRow = 3
-									selectedItem = calendarItem
-									selectedItemId = calendarItem.id
-								}
-						}
-						Spacer(minLength: 10)
-					}
-					.scrollTargetLayout()
-				}
-				.scrollPosition(id: $selectedItemId, anchor: .center)
-				
-				ScrollView(.horizontal){
-					HStack(alignment: .center) {
-						Spacer(minLength: 15)
-						ForEach(calendarItems[4]!) { calendarItem in
-							calendarItem
-								.setModifiers(selectedRow: selectedRow, row: 4)
-								.onTapGesture {
-									selectedRow = 4
-									selectedItem = calendarItem
-									selectedItemId = calendarItem.id
-								}
-						}
-						Spacer(minLength: 10)
-					}
-					.scrollTargetLayout()
-				}
-				.scrollPosition(id: $selectedItemId, anchor: .center)
+			ForEach(calendarRows.sorted(by: { $0.0 < $1.0 }), id: \.0) { calendarRow in
+				CalendarRowView(
+					selectedItem: $selectedItem,
+					selectedItemId: $selectedItemId,
+					selectedRow: $selectedRow,
+					calendarItems: calendarRows,
+					row: calendarRow.key)
 			}
+			
+			Spacer()
 			
 			if(selectedItem != nil) {
 				List() {
@@ -155,6 +98,36 @@ struct CalendarView: View {
 	}
 }
 
+struct CalendarRowView: View {
+	@Binding var selectedItem: CalendarItemView?
+	@Binding var selectedItemId: UUID?
+	@Binding var selectedRow: Int
+	
+	let calendarItems: [Int: [CalendarItemView]]
+	let row: Int
+	
+	
+	var body: some View {
+		ScrollView(.horizontal){
+			HStack(alignment: .center) {
+				Spacer(minLength: 15)
+				ForEach(calendarItems[row]!) { calendarItem in
+					calendarItem
+						.setModifiers(selectedRow: selectedRow, row: row)
+						.onTapGesture {
+							selectedRow = row
+							selectedItem = calendarItem
+							selectedItemId = calendarItem.id
+						}
+				}
+				Spacer(minLength: 10)
+			}
+			.scrollTargetLayout()
+		}
+		.scrollPosition(id: $selectedItemId, anchor: .center)
+	}
+}
+
 struct CalendarItemView: View, Hashable, Identifiable {
 	let id = UUID()
 	let day: Int
@@ -164,8 +137,7 @@ struct CalendarItemView: View, Hashable, Identifiable {
 		Rectangle()
 			.overlay {
 				Text("\(day)")
-					.foregroundStyle(.white)
-					.multilineTextAlignment(.center)
+					.foregroundStyle(.gray)
 			}
 	}
 	
@@ -175,13 +147,15 @@ struct CalendarItemView: View, Hashable, Identifiable {
 			return self
 				.frame(width: 300, height: 200, alignment: .center)
 				.clipShape(RoundedRectangle(cornerRadius: 20))
-				.shadow(radius: 10, y: 5)
+				.shadow(radius: 5)
+				.padding(5)
 		}
 		else {
 			return self
 				.frame(width: 45, height: 45)
 				.clipShape(RoundedRectangle(cornerRadius: 5))
-				.shadow(radius: 10, y: 5)
+				.shadow(radius: 5)
+				.padding(5)
 		}
 		
 	}

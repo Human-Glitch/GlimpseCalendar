@@ -11,6 +11,13 @@
 		E7B21D3D2B9447A100D4380E /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B21D3C2B9447A100D4380E /* CalendarView.swift */; };
 		E7B21D3F2B9447A200D4380E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7B21D3E2B9447A200D4380E /* Assets.xcassets */; };
 		E7B21D432B9447A200D4380E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7B21D422B9447A200D4380E /* Preview Assets.xcassets */; };
+		E7B21D4B2B959FE500D4380E /* BitCollections in Frameworks */ = {isa = PBXBuildFile; productRef = E7B21D4A2B959FE500D4380E /* BitCollections */; };
+		E7B21D4D2B959FE500D4380E /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = E7B21D4C2B959FE500D4380E /* Collections */; };
+		E7B21D4F2B959FE500D4380E /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = E7B21D4E2B959FE500D4380E /* DequeModule */; };
+		E7B21D512B959FE500D4380E /* HashTreeCollections in Frameworks */ = {isa = PBXBuildFile; productRef = E7B21D502B959FE500D4380E /* HashTreeCollections */; };
+		E7B21D532B959FE500D4380E /* HeapModule in Frameworks */ = {isa = PBXBuildFile; productRef = E7B21D522B959FE500D4380E /* HeapModule */; };
+		E7B21D552B959FE500D4380E /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = E7B21D542B959FE500D4380E /* OrderedCollections */; };
+		E7B21D572B959FE500D4380E /* _RopeModule in Frameworks */ = {isa = PBXBuildFile; productRef = E7B21D562B959FE500D4380E /* _RopeModule */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +34,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7B21D4D2B959FE500D4380E /* Collections in Frameworks */,
+				E7B21D532B959FE500D4380E /* HeapModule in Frameworks */,
+				E7B21D552B959FE500D4380E /* OrderedCollections in Frameworks */,
+				E7B21D4B2B959FE500D4380E /* BitCollections in Frameworks */,
+				E7B21D512B959FE500D4380E /* HashTreeCollections in Frameworks */,
+				E7B21D4F2B959FE500D4380E /* DequeModule in Frameworks */,
+				E7B21D572B959FE500D4380E /* _RopeModule in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +99,15 @@
 			dependencies = (
 			);
 			name = GlimpseCalendar;
+			packageProductDependencies = (
+				E7B21D4A2B959FE500D4380E /* BitCollections */,
+				E7B21D4C2B959FE500D4380E /* Collections */,
+				E7B21D4E2B959FE500D4380E /* DequeModule */,
+				E7B21D502B959FE500D4380E /* HashTreeCollections */,
+				E7B21D522B959FE500D4380E /* HeapModule */,
+				E7B21D542B959FE500D4380E /* OrderedCollections */,
+				E7B21D562B959FE500D4380E /* _RopeModule */,
+			);
 			productName = GlimpseCalendar;
 			productReference = E7B21D372B9447A100D4380E /* GlimpseCalendar.app */;
 			productType = "com.apple.product-type.application";
@@ -113,6 +136,9 @@
 				Base,
 			);
 			mainGroup = E7B21D2E2B9447A100D4380E;
+			packageReferences = (
+				E7B21D492B959FE500D4380E /* XCRemoteSwiftPackageReference "swift-collections" */,
+			);
 			productRefGroup = E7B21D382B9447A100D4380E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -363,6 +389,55 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E7B21D492B959FE500D4380E /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E7B21D4A2B959FE500D4380E /* BitCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E7B21D492B959FE500D4380E /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = BitCollections;
+		};
+		E7B21D4C2B959FE500D4380E /* Collections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E7B21D492B959FE500D4380E /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = Collections;
+		};
+		E7B21D4E2B959FE500D4380E /* DequeModule */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E7B21D492B959FE500D4380E /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = DequeModule;
+		};
+		E7B21D502B959FE500D4380E /* HashTreeCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E7B21D492B959FE500D4380E /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = HashTreeCollections;
+		};
+		E7B21D522B959FE500D4380E /* HeapModule */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E7B21D492B959FE500D4380E /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = HeapModule;
+		};
+		E7B21D542B959FE500D4380E /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E7B21D492B959FE500D4380E /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
+		};
+		E7B21D562B959FE500D4380E /* _RopeModule */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E7B21D492B959FE500D4380E /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = _RopeModule;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E7B21D2F2B9447A100D4380E /* Project object */;
 }
