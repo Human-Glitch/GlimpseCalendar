@@ -32,7 +32,11 @@ struct CalendarRowView: View {
 						.onTapGesture {
 							selectedRow = row
 							selectedItem = calendarItem
-							selectedItemId = calendarItem.id
+							
+							withAnimation(.easeInOut(duration: 0.5)) {
+								selectedItemId = calendarItem.id
+							}
+							
 						}
 					
 					Spacer(minLength: 1)
