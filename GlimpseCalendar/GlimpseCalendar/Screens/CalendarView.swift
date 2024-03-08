@@ -24,6 +24,17 @@ struct CalendarView: View {
 					selectedItemId = nil
 				}
 			
+			HStack(alignment: .center, spacing: 13){
+				Text("SUN")
+				Text("MON")
+				Text("TUE")
+				Text("WED")
+				Text("THU")
+				Text("FRI")
+				Text("SAT")
+				Text("SUN")
+			}
+			
 			ForEach(MockData.calendarRows.sorted(by: { $0.0 < $1.0 }), id: \.0) { calendarRow in
 				CalendarRowView(
 					selectedItem: $selectedItem,
@@ -31,7 +42,7 @@ struct CalendarView: View {
 					selectedRow: $selectedRow,
 					calendarItems: MockData.calendarRows,
 					row: calendarRow.key)
-			}
+			}.padding([.horizontal])
 			
 			Spacer()
 			

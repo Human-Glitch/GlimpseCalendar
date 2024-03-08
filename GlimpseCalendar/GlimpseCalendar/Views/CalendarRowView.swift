@@ -18,15 +18,13 @@ struct CalendarRowView: View {
 	var body: some View {
 		ScrollView(.horizontal){
 			HStack(alignment: .center) {
-				Spacer(minLength: 1)
-				
 				ForEach(calendarItems[row]!) { calendarItem in
 					calendarItem
 						.setModifiers(selectedRow: selectedRow, row: row)
 						.scrollTransition { content, phase in
 							content
 								.opacity(phase.isIdentity ? 1 : 0.5)
-								.scaleEffect(phase.isIdentity ? 1 : 0.9)
+								.scaleEffect(phase.isIdentity ? 1 : 0.95)
 								.blur(radius: phase.isIdentity ? 0 : 5)
 						}
 						.onTapGesture {
@@ -38,13 +36,15 @@ struct CalendarRowView: View {
 							}
 							
 						}
-					
-					Spacer(minLength: 1)
 				}
 			}
 			.scrollTargetLayout()
+			
 		}
+		.scrollDisabled(selectedRow != row)
+		.scrollIndicators(.hidden)
 		.scrollPosition(id: $selectedItemId, anchor: .center)
+		.scrollTargetBehavior(.viewAligned)
 	}
 }
 

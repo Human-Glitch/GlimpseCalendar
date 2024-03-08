@@ -24,17 +24,15 @@ struct CalendarItemView: View, Hashable, Identifiable {
 		
 		if(selectedRow == row){
 			return self
-				.frame(width: 300, height: 200, alignment: .center)
+				.frame(width: 250, height: 180, alignment: .center)
 				.clipShape(RoundedRectangle(cornerRadius: 20))
 				.shadow(radius: 5)
-				.padding(5)
 		}
 		else {
 			return self
 				.frame(width: 45, height: 45)
 				.clipShape(RoundedRectangle(cornerRadius: 5))
 				.shadow(radius: 5)
-				.padding(5)
 		}
 		
 	}
