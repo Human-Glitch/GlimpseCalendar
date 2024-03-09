@@ -11,7 +11,7 @@ import SwiftUI
 struct GlimpseCalendarApp: App {
     var body: some Scene {
         WindowGroup {
-			CalendarView(selectedRow: 0)
+			CalendarView()
         }
     }
 }
