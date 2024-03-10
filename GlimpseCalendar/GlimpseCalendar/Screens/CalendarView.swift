@@ -25,6 +25,7 @@ struct CalendarView: View {
 				}
 			
 			ForEach(MockData.calendarRows.sorted(by: { $0.0 < $1.0 }), id: \.0) { calendarRow in
+				
 				CalendarRowView(
 					selectedItem: $selectedItem,
 					selectedItemId: $selectedItemId,
@@ -35,13 +36,13 @@ struct CalendarView: View {
 			
 			Spacer()
 			
-			if(selectedItem != nil) {
+			if(selectedRow != 0) {
 				List() {
 					ForEach(selectedItem!.events, id: \.self){ event in
 						Text(event)
 					}
 				}
-				.frame(height: 250)
+				.frame(height: 200)
 			}
 		}
 		.padding(10)

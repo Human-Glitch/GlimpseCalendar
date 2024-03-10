@@ -29,11 +29,17 @@ struct MockData {
 		
 		var result: [Int: [CalendarItemView]] = [:]
 		
-		for count in 1...5 {
-			
+		for count in 0...5 {
 			var calendarItems: [CalendarItemView] = []
+			
+			var isHeader = false
+			
+			if(count == 0) {
+				isHeader = true
+			}
+			
 			for day in daysOfWeek {
-				let calendarItem = CalendarItemView(date: day)
+				let calendarItem = CalendarItemView(isHeader: isHeader, day: day)
 				calendarItems.append(calendarItem)
 			}
 			

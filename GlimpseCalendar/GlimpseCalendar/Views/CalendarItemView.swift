@@ -9,14 +9,20 @@ import SwiftUI
 
 struct CalendarItemView: View, Hashable, Identifiable {
 	let id = UUID()
-	let date: String
+	let isHeader: Bool
+	let day: String
+	
 	var events: [String] = ["Blah", "Blah", "Blah", "Blah", "Blah"]
 	
 	var body: some View {
-		VStack {
+		
+		if(isHeader) {
+			Text(day)
+				.font(.footnote)
+				.fontWeight(.semibold)
+		}
+		else {
 			Rectangle()
-				.clipShape(RoundedRectangle(cornerRadius: 20))
-				.shadow(radius: 5)
 		}
 	}
 }
@@ -24,7 +30,11 @@ struct CalendarItemView: View, Hashable, Identifiable {
 #Preview {
 	Group {
 		VStack {
-			CalendarItemView(date: "MON")
+			CalendarItemView(isHeader: true, day: "MON")
+			
+			Spacer()
+			
+			CalendarItemView(isHeader: false, day: "MON")
 		}
 	}
 }

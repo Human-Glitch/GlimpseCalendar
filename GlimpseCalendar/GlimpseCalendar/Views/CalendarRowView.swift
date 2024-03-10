@@ -24,11 +24,6 @@ struct CalendarRowView: View {
 				ForEach(calendarRowItems) { calendarItem in
 					
 					VStack {
-						
-						if(row == 1){
-							Text(MockData.daysOfWeek[calendarRowItems.firstIndex(of: calendarItem)!])
-						}
-						
 						calendarItem
 							.modifier(CustomCalendarRowStyle(selectedRow: selectedRow, row: row))
 							.scrollTransition { content, phase in
@@ -64,13 +59,26 @@ struct CustomCalendarRowStyle: ViewModifier {
 	var row: Int
 	
 	func body(content: Content) -> some View {
-		if(selectedRow == row){
+		if(row == 0) {
 			content
-				.frame(width: 250, height: 180, alignment: .center)
+				.frame(width: 35, height: 35)
+				.padding(5)
 		}
 		else {
-			content
-				.frame(width: 45, height: 45)
+			if(selectedRow == row){
+				content
+					.frame(width: 250, height: 180, alignment: .center)
+					.clipShape(RoundedRectangle(cornerRadius: 20))
+					.shadow(radius: 5)
+					.padding(10)
+			}
+			else {
+				content
+					.frame(width: 35, height: 35)
+					.clipShape(RoundedRectangle(cornerRadius: 5))
+					.shadow(radius: 5)
+					.padding(5)
+			}
 		}
 	}
 }
@@ -82,8 +90,14 @@ struct CustomCalendarRowStyle: ViewModifier {
 			selectedItemId: .constant(nil),
 			selectedRow: .constant(2),
 			calendarItems: MockData.calendarRows,
+			row: 0)
+		
+		CalendarRowView(
+			selectedItem: .constant(nil),
+			selectedItemId: .constant(nil),
+			selectedRow: .constant(2),
+			calendarItems: MockData.calendarRows,
 			row: 1)
-		.preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
 		
 		CalendarRowView(
 			selectedItem: .constant(nil),
