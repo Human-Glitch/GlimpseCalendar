@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct GlimpseCalendarApp: App {
+	var calendarRows = MockData.calendarRows
     var body: some Scene {
         WindowGroup {
-			CalendarView()
+			CalendarView(calendarRows: calendarRows)
         }
     }
 }

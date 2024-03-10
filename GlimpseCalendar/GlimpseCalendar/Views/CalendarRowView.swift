@@ -18,30 +18,25 @@ struct CalendarRowView: View {
 	var body: some View {
 		ScrollView(.horizontal){
 			HStack(alignment: .center) {
-				
 				let calendarRowItems = calendarItems[row] ?? []
 	
 				ForEach(calendarRowItems) { calendarItem in
-					
-					VStack {
-						calendarItem
-							.modifier(CustomCalendarRowStyle(selectedRow: selectedRow, row: row))
-							.scrollTransition { content, phase in
-								content
-									.opacity(phase.isIdentity ? 1 : 0.5)
-									.scaleEffect(phase.isIdentity ? 1 : 0.95)
-									.blur(radius: phase.isIdentity ? 0 : 5)
+					calendarItem
+						.modifier(CustomCalendarRowStyle(selectedRow: selectedRow, row: row)) // Apply the drag offset to position
+						.scrollTransition { content, phase in
+							content
+								.opacity(phase.isIdentity ? 1 : 0.5)
+								.scaleEffect(phase.isIdentity ? 1 : 0.90)
+								.blur(radius: phase.isIdentity ? 0 : 5)
+						}
+						.onTapGesture {
+							selectedRow = row
+							selectedItem = calendarItem
+							
+							withAnimation(.easeInOut(duration: 0.5)) {
+								selectedItemId = calendarItem.id
 							}
-							.onTapGesture {
-								selectedRow = row
-								selectedItem = calendarItem
-								
-								withAnimation(.easeInOut(duration: 0.5)) {
-									selectedItemId = calendarItem.id
-								}
-								
-							}
-					}
+						}
 				}
 			}
 			.scrollTargetLayout()
@@ -49,8 +44,9 @@ struct CalendarRowView: View {
 		}
 		.scrollDisabled(selectedRow != row)
 		.scrollIndicators(.hidden)
-		.scrollPosition(id: $selectedItemId, anchor: .center)
 		.scrollTargetBehavior(.viewAligned)
+		.scrollPosition(id: $selectedItemId, anchor: .center)
+		
 	}
 }
 

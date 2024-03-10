@@ -12,6 +12,8 @@ struct CalendarView: View {
 	@State var selectedItem: CalendarItemView?
 	@State var selectedItemId: UUID?
 	
+	var calendarRows : [Int: [CalendarItemView]]
+	
     var body: some View {
 		VStack(alignment: .center){
 			Text("👁️‍🗨️ Glimpse")
@@ -24,7 +26,7 @@ struct CalendarView: View {
 					selectedItemId = nil
 				}
 			
-			ForEach(MockData.calendarRows.sorted(by: { $0.0 < $1.0 }), id: \.0) { calendarRow in
+			ForEach(calendarRows.sorted(by: { $0.0 < $1.0 }), id: \.0) { calendarRow in
 				
 				CalendarRowView(
 					selectedItem: $selectedItem,
@@ -50,5 +52,5 @@ struct CalendarView: View {
 }
 
 #Preview {
-	CalendarView(selectedRow: 0)
+	CalendarView(calendarRows: MockData.calendarRows)
 }

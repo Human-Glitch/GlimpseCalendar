@@ -23,7 +23,7 @@ struct MockData {
 	
 	static var calendarRows: [Int: [CalendarItemView]] {
 		
-		if(_calendarRows.isEmpty == false){
+		if(_calendarRows.count > 0){
 			return _calendarRows
 		}
 		
@@ -45,6 +45,8 @@ struct MockData {
 			
 			result.updateValue(calendarItems, forKey: count)
 		}
+		
+		_calendarRows = result;
 		
 		return result
 	}
