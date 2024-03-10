@@ -34,6 +34,18 @@ struct CalendarView: View {
 					selectedRow: $selectedRow,
 					calendarItems: MockData.calendarRows,
 					row: calendarRow.key)
+					.gesture(DragGesture()
+						.onChanged { value in
+							// Scroll up
+							if(value.translation.height > 0) {
+								if(selectedRow == 1) { return }
+							  selectedRow = selectedRow - 1
+							} else { // Scroll down
+								if(selectedRow == 5) { return }
+							  selectedRow = selectedRow + 1
+							}
+						}
+					)
 			}
 			
 			Spacer()
