@@ -42,6 +42,7 @@ struct CalendarRowView: View {
 			.scrollTargetLayout()
 			
 		}
+		.scrollClipDisabled()
 		.scrollDisabled(selectedRow != row)
 		.scrollIndicators(.hidden)
 		.scrollTargetBehavior(.viewAligned)
@@ -65,14 +66,14 @@ struct CustomCalendarRowStyle: ViewModifier {
 				content
 					.frame(width: 250, height: 180, alignment: .center)
 					.clipShape(RoundedRectangle(cornerRadius: 20))
-					.shadow(radius: 5)
+					.shadow(radius: 5, y: 10)
 					.padding(10)
 			}
 			else {
 				content
 					.frame(width: 35, height: 35)
 					.clipShape(RoundedRectangle(cornerRadius: 5))
-					.shadow(radius: 5)
+					.shadow(radius: 5, y: 10)
 					.padding(5)
 			}
 		}
