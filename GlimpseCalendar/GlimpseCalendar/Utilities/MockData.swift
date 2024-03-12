@@ -39,8 +39,12 @@ struct MockData {
 			}
 			
 			for day in daysOfWeek {
-				let calendarItem = CalendarItemView(isHeader: isHeader, day: day)
-				calendarItems.append(calendarItem)
+				if let index = daysOfWeek.firstIndex(of: day) {
+					let calendarItem = CalendarItemView(isHeader: isHeader, day: day, index: index)
+					calendarItems.append(calendarItem)
+				} else {
+					print("Failed to grab index")
+				}
 			}
 			
 			result.updateValue(calendarItems, forKey: count)

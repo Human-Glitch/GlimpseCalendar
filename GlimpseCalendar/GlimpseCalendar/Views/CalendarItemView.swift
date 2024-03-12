@@ -11,6 +11,7 @@ struct CalendarItemView: View, Hashable, Identifiable {
 	let id = UUID()
 	let isHeader: Bool
 	let day: String
+	let index: Int
 	
 	var events: [String] = ["Blah", "Blah", "Blah", "Blah", "Blah"]
 	
@@ -30,11 +31,11 @@ struct CalendarItemView: View, Hashable, Identifiable {
 #Preview {
 	Group {
 		VStack {
-			CalendarItemView(isHeader: true, day: "MON")
+			CalendarItemView(isHeader: true, day: "MON", index: 0)
 			
 			Spacer()
 			
-			CalendarItemView(isHeader: false, day: "MON")
+			CalendarItemView(isHeader: false, day: "MON", index: 1)
 		}
 	}
 }

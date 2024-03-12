@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E792CF732B9FE79D00E09621 /* CalendarRowCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E792CF722B9FE79D00E09621 /* CalendarRowCarouselView.swift */; };
 		E7B21D3B2B9447A100D4380E /* GlimpseCalendarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B21D3A2B9447A100D4380E /* GlimpseCalendarApp.swift */; };
 		E7B21D3D2B9447A100D4380E /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B21D3C2B9447A100D4380E /* CalendarView.swift */; };
 		E7B21D3F2B9447A200D4380E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7B21D3E2B9447A200D4380E /* Assets.xcassets */; };
@@ -18,19 +19,18 @@
 		E7B21D532B959FE500D4380E /* HeapModule in Frameworks */ = {isa = PBXBuildFile; productRef = E7B21D522B959FE500D4380E /* HeapModule */; };
 		E7B21D552B959FE500D4380E /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = E7B21D542B959FE500D4380E /* OrderedCollections */; };
 		E7B21D572B959FE500D4380E /* _RopeModule in Frameworks */ = {isa = PBXBuildFile; productRef = E7B21D562B959FE500D4380E /* _RopeModule */; };
-		E7B21D5C2B95A52900D4380E /* CalendarRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B21D5B2B95A52900D4380E /* CalendarRowView.swift */; };
 		E7B21D5E2B95A5A700D4380E /* CalendarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B21D5D2B95A5A700D4380E /* CalendarItemView.swift */; };
 		E7B21D602B95A5EC00D4380E /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B21D5F2B95A5EC00D4380E /* MockData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E792CF722B9FE79D00E09621 /* CalendarRowCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarRowCarouselView.swift; sourceTree = "<group>"; };
 		E7B21D372B9447A100D4380E /* GlimpseCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GlimpseCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7B21D3A2B9447A100D4380E /* GlimpseCalendarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlimpseCalendarApp.swift; sourceTree = "<group>"; };
 		E7B21D3C2B9447A100D4380E /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		E7B21D3E2B9447A200D4380E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E7B21D402B9447A200D4380E /* GlimpseCalendar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GlimpseCalendar.entitlements; sourceTree = "<group>"; };
 		E7B21D422B9447A200D4380E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		E7B21D5B2B95A52900D4380E /* CalendarRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarRowView.swift; sourceTree = "<group>"; };
 		E7B21D5D2B95A5A700D4380E /* CalendarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarItemView.swift; sourceTree = "<group>"; };
 		E7B21D5F2B95A5EC00D4380E /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -94,8 +94,8 @@
 		E7B21D582B95A4CD00D4380E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E7B21D5B2B95A52900D4380E /* CalendarRowView.swift */,
 				E7B21D5D2B95A5A700D4380E /* CalendarItemView.swift */,
+				E792CF722B9FE79D00E09621 /* CalendarRowCarouselView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -198,11 +198,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E7B21D5C2B95A52900D4380E /* CalendarRowView.swift in Sources */,
 				E7B21D5E2B95A5A700D4380E /* CalendarItemView.swift in Sources */,
 				E7B21D3D2B9447A100D4380E /* CalendarView.swift in Sources */,
 				E7B21D3B2B9447A100D4380E /* GlimpseCalendarApp.swift in Sources */,
 				E7B21D602B95A5EC00D4380E /* MockData.swift in Sources */,
+				E792CF732B9FE79D00E09621 /* CalendarRowCarouselView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

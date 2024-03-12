@@ -10,7 +10,6 @@ import SwiftUI
 struct CalendarView: View {
 	@State var selectedRow = 0
 	@State var selectedItem: CalendarItemView?
-	@State var selectedItemId: UUID?
 	
 	var calendarRows : [Int: [CalendarItemView]]
 	
@@ -23,29 +22,33 @@ struct CalendarView: View {
 				.onTapGesture {
 					selectedRow = 0
 					selectedItem = nil
-					selectedItemId = nil
 				}
 			
-			ForEach(calendarRows.sorted(by: { $0.0 < $1.0 }), id: \.0) { calendarRow in
+			ForEach(calendarRows.sorted(by: { $0.0 < $1.0 }), id: \.0) { row, calendarRow in
 				
-				CalendarRowView(
-					selectedItem: $selectedItem,
-					selectedItemId: $selectedItemId,
-					selectedRow: $selectedRow,
-					calendarItems: MockData.calendarRows,
-					row: calendarRow.key)
-					.gesture(DragGesture()
-						.onChanged { value in
-							// Scroll up
-							if(value.translation.height > 0) {
-								if(selectedRow == 1) { return }
-							  selectedRow = selectedRow - 1
-							} else { // Scroll down
-								if(selectedRow == 5) { return }
-							  selectedRow = selectedRow + 1
-							}
-						}
-					)
+					CalendarRowCarouselView(
+						selectedItem: $selectedItem,
+						selectedRow: $selectedRow,
+						calendarItems: calendarRow,
+						row: row,
+						activeRow: selectedRow == row)
+//					.gesture(DragGesture()
+//						.onChanged { value in
+//							// Scroll up
+//							if(value.translation.height > 0) {
+//								if(selectedRow == 1) { return }
+//								withAnimation {
+//									selectedRow = selectedRow - 1
+//								}
+//							} else { // Scroll down
+//								if(selectedRow == 5) { return }
+//								
+//								withAnimation {
+//									selectedRow = selectedRow + 1
+//								}
+//							}
+//						}
+//					)
 			}
 			
 			Spacer()
