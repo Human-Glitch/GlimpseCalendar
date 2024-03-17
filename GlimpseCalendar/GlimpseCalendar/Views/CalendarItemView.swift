@@ -23,7 +23,41 @@ struct CalendarItemView: View, Hashable, Identifiable {
 				.fontWeight(.semibold)
 		}
 		else {
-			Rectangle()
+			ZStack {
+				Rectangle()
+					.foregroundStyle(.quaternary)
+					.background(.quaternary)
+				
+				VStack {
+					HStack (spacing: 0){
+						Text("\(index + 1)")
+							.frame(width: 20, height: 20, alignment: .center)
+							.font(.title3)
+							.fontDesign(.monospaced)
+							.fontWeight(.semibold)
+							.background(.red.opacity(0.8))
+							.foregroundStyle(.white)
+							.padding([.leading, .top, .bottom])
+						
+						
+						Text(day)
+							.frame(width: 50, height: 20)
+							.font(.title3)
+							.fontDesign(.monospaced)
+							.fontWeight(.semibold)
+							.background(.white)
+							.padding([.top, .bottom, .trailing])
+						
+						
+						
+						Spacer()
+					}
+					
+					Spacer()
+				}
+				
+			}
+			
 		}
 	}
 }
