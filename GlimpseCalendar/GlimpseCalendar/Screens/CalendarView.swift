@@ -32,23 +32,6 @@ struct CalendarView: View {
 						calendarItems: calendarRow,
 						row: row,
 						activeRow: selectedRow == row)
-//					.gesture(DragGesture()
-//						.onChanged { value in
-//							// Scroll up
-//							if(value.translation.height > 0) {
-//								if(selectedRow == 1) { return }
-//								withAnimation {
-//									selectedRow = selectedRow - 1
-//								}
-//							} else { // Scroll down
-//								if(selectedRow == 5) { return }
-//								
-//								withAnimation {
-//									selectedRow = selectedRow + 1
-//								}
-//							}
-//						}
-//					)
 			}
 			
 			Spacer()
