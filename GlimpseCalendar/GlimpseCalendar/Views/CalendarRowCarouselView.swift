@@ -25,9 +25,9 @@ struct CalendarRowCarouselView: View {
 					ForEach(calendarItems) { calendarItem in
 						calendarItem
 							.modifier(CustomCalendarRowStyle(row: row, activeRow: activeRow))
-							.opacity(calendarItem.index == currentIndex ? 1.0 : 0.5)
-							.scaleEffect(calendarItem.index == currentIndex ? 1.2 : 0.8)
-							.offset(x: CGFloat(calendarItem.index - currentIndex) * 200 + dragOffset, y: 0)
+							.opacity(calendarItem.index == currentIndex ? 1.0 : 0.8)
+							.scaleEffect(calendarItem.index == currentIndex ? 1.2 : 0.5)
+							.offset(x: CGFloat(calendarItem.index - currentIndex) * 220 + dragOffset, y: 0)
 							.onTapGesture {
 								withAnimation(.interactiveSpring(duration: 0.4))  {
 									currentIndex = calendarItem.index
@@ -35,7 +35,6 @@ struct CalendarRowCarouselView: View {
 									selectedRow = row
 								}
 							}
-						
 					}
 				}
 				.gesture(DragGesture()
@@ -77,7 +76,6 @@ struct CalendarRowCarouselView: View {
 				}
 			}
 		}
-		
 	}
 }
 
