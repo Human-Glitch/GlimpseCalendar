@@ -24,7 +24,7 @@ struct CalendarRowCarouselView: View {
 				ZStack {
 					ForEach(calendarItems) { calendarItem in
 						calendarItem
-							.modifier(CustomCalendarRowStyle(row: row, activeRow: activeRow))
+							.modifier(CustomCalendarRowStyle(row: row, activeRow: activeRow, calendarItem: calendarItem))
 							.opacity(calendarItem.index == currentIndex ? 1.0 : 0.8)
 							.scaleEffect(calendarItem.index == currentIndex ? 1.2 : 0.5)
 							.offset(x: CGFloat(calendarItem.index - currentIndex) * 220 + dragOffset, y: 0)
@@ -63,7 +63,7 @@ struct CalendarRowCarouselView: View {
 				
 				ForEach(calendarItems) { calendarItem in
 					calendarItem
-						.modifier(CustomCalendarRowStyle(row: row, activeRow: activeRow)) // Apply the drag offset to position
+						.modifier(CustomCalendarRowStyle(row: row, activeRow: activeRow, calendarItem: calendarItem)) // Apply the drag offset to position
 						.onTapGesture {
 							withAnimation(.interactiveSpring(duration: 0.4))  {
 								currentIndex = calendarItem.index
@@ -75,6 +75,7 @@ struct CalendarRowCarouselView: View {
 					
 				}
 			}
+			.padding(5)
 		}
 	}
 }
@@ -82,6 +83,7 @@ struct CalendarRowCarouselView: View {
 struct CustomCalendarRowStyle: ViewModifier {
 	var row: Int
 	var activeRow: Bool
+	var calendarItem: CalendarItemView
 	
 	func body(content: Content) -> some View {
 		if(row == 0) {
@@ -98,11 +100,28 @@ struct CustomCalendarRowStyle: ViewModifier {
 					.padding(10)
 			}
 			else {
-				content
-					.frame(width: 35, height: 35)
-					.clipShape(RoundedRectangle(cornerRadius: 5))
-					.shadow(radius: 5, y: 10)
-					.padding(5)
+				ZStack {
+					content
+						.frame(width: 20, height: 20)
+						.clipShape(RoundedRectangle(cornerRadius: 10))
+						.shadow(radius: 5, y: 10)
+						.padding(5)
+						.foregroundStyle(.quaternary)
+						.background(.quaternary)
+					
+					VStack {
+						HStack (alignment: .center) {
+							Text("\(calendarItem.index + 1)")
+								.frame(width: 20, height: 20, alignment: .center)
+								.font(.title3)
+								.fontWeight(.semibold)
+								.padding(13)
+								.background(.red.opacity(0.8))
+								.clipShape(RoundedRectangle(cornerRadius: 10))
+								.foregroundStyle(.white)
+						}
+					}
+				}
 			}
 		}
 	}
