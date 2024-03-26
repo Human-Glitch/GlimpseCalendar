@@ -29,18 +29,12 @@ struct MockData {
 		
 		var result: [Int: [CalendarItemView]] = [:]
 		
-		for count in 0...5 {
+		for count in 0...4 {
 			var calendarItems: [CalendarItemView] = []
-			
-			var isHeader = false
-			
-			if(count == 0) {
-				isHeader = true
-			}
 			
 			for day in daysOfWeek {
 				if let index = daysOfWeek.firstIndex(of: day) {
-					let calendarItem = CalendarItemView(isHeader: isHeader, day: day, index: index)
+					let calendarItem = CalendarItemView(day: day, index: index)
 					calendarItems.append(calendarItem)
 				} else {
 					print("Failed to grab index")
