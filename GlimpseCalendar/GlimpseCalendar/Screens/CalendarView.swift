@@ -44,7 +44,6 @@ struct CalendarView: View {
 			}
 			.frame(width: 400, height: 50)
 			
-			
 			ForEach(calendarRows.sorted(by: { $0.0 < $1.0 }), id: \.0) { row, calendarRow in
 				
 					CalendarRowCarouselView(

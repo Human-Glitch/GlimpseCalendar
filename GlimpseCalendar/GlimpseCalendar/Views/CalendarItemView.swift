@@ -12,38 +12,79 @@ struct CalendarItemView: View, Hashable, Identifiable {
 	let day: String
 	let index: Int
 	
-	var events: [String] = ["Blah", "Blah", "Blah", "Blah", "Blah"]
+	var events: [String] = ["Blah", "BlahBlahBlahBlahBlahBlahBlahBlahBlahBlahBlahBlahBlah", "Blah", "Blah", "Blah"]
 	
 	var body: some View {
 		ZStack {
 			Rectangle()
 				.foregroundStyle(.quaternary)
-				.background(.quaternary)
+				.background(.clear)
 			
-			VStack {
+			VStack{
+				Spacer(minLength: 30)
+				List(events, id: \.self) { event in
+					VStack{
+						HStack{
+							VStack{
+								Text("10 am")
+								Text("11 am")
+							}
+							.padding(5)
+							.foregroundColor(.white)
+							.background(.gray)
+							.cornerRadius(10)
+							
+							VStack{
+								HStack{
+									Label(event, systemImage: "calendar")
+										.lineLimit(1)
+										.padding(.trailing)
+										.scaledToFit()
+										.minimumScaleFactor(0.8)
+									
+									Spacer()
+								}
+								
+								HStack{
+									Label("Home", systemImage: "mappin.and.ellipse")
+										.bold()
+									
+									Spacer()
+								}
+							}
+						}
+						.font(.footnote)
+					}
+				}
+				.listStyle(.plain)
+				.font(.footnote)
+				.fontWeight(.semibold)
+			}
+			
+			VStack{
 				HStack (spacing: 0){
-					Text("\(index + 1)")
-						.frame(width: 20, height: 20, alignment: .center)
-						.font(.title3)
-						.fontDesign(.monospaced)
-						.fontWeight(.semibold)
-						.background(.red.opacity(0.8))
-						.foregroundStyle(.white)
-						.padding([.leading, .top, .bottom])
-					
-					
 					Text(day)
 						.frame(width: 50, height: 20)
 						.font(.title3)
 						.fontDesign(.monospaced)
-						.fontWeight(.semibold)
+						.fontWeight(.bold)
 						.background(.white)
-						.padding([.top, .bottom, .trailing])
+						.cornerRadius(5)
+						.padding(.leading, 15)
 					
-					
+					Text("\(index + 1)")
+						.frame(width: 25, height: 25, alignment: .center)
+						.font(.title3)
+						.fontDesign(.monospaced)
+						.fontWeight(.bold)
+						.background(.red.opacity(0.8))
+						.cornerRadius(10)
+						.foregroundStyle(.white)
+						.padding(.leading, 10)
 					
 					Spacer()
 				}
+				.frame(height: 30)
 				
 				Spacer()
 			}

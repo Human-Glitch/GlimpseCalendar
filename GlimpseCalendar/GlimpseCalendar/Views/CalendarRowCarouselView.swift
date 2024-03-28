@@ -89,10 +89,10 @@ struct CustomCalendarRowStyle: ViewModifier {
 		
 		if(activeRow) {
 			content
-				.frame(width: 250, height: 180, alignment: .center)
+				.frame(width: 250, height: 220, alignment: .center)
 				.clipShape(RoundedRectangle(cornerRadius: 20))
-				.shadow(radius: 5, y: 10)
-				.padding(10)
+				.shadow(radius: 10, y: 5)
+				.padding(20)
 		}
 		else {
 			ZStack {
