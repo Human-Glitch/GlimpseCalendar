@@ -12,7 +12,34 @@ struct CalendarItemView: View, Hashable, Identifiable {
 	let day: String
 	let index: Int
 	
-	var events: [String] = ["Blah", "BlahBlahBlahBlahBlahBlahBlahBlahBlahBlahBlahBlahBlah", "Blah", "Blah", "Blah"]
+	var events: [Event] = [
+		Event(
+			name: "Blah",
+			startTime: Calendar.current.date(bySettingHour: 10, minute: 0, second: 0, of: Date())!,
+			endTime: Calendar.current.date(bySettingHour: 11, minute: 0, second: 0, of: Date())!,
+			location: "Home"),
+		Event(
+			name: "Blah",
+			startTime: Calendar.current.date(bySettingHour: 11, minute: 0, second: 0, of: Date())!,
+			endTime: Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: Date())!,
+			location: "Home"),
+		Event(
+			name: "Blah",
+			startTime: Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: Date())!,
+			endTime: Calendar.current.date(bySettingHour: 13, minute: 0, second: 0, of: Date())!,
+			location: "Home"),
+		Event(
+			name: "Blah",
+			startTime: Calendar.current.date(bySettingHour: 13, minute: 0, second: 0, of: Date())!,
+			endTime: Calendar.current.date(bySettingHour: 14, minute: 0, second: 0, of: Date())!,
+			location: "Home"),
+		Event(
+			name: "Blah",
+			startTime: Calendar.current.date(bySettingHour: 14, minute: 0, second: 0, of: Date())!,
+			endTime: Calendar.current.date(bySettingHour: 15, minute: 0, second: 0, of: Date())!,
+			location: "Home"),
+		
+	]
 	
 	var body: some View {
 		ZStack {
@@ -23,38 +50,7 @@ struct CalendarItemView: View, Hashable, Identifiable {
 			VStack{
 				Spacer(minLength: 30)
 				List(events, id: \.self) { event in
-					VStack{
-						HStack{
-							VStack{
-								Text("10 am")
-								Text("11 am")
-							}
-							.padding(5)
-							.foregroundColor(.white)
-							.background(.gray)
-							.cornerRadius(10)
-							
-							VStack{
-								HStack{
-									Label(event, systemImage: "calendar")
-										.lineLimit(1)
-										.padding(.trailing)
-										.scaledToFit()
-										.minimumScaleFactor(0.8)
-									
-									Spacer()
-								}
-								
-								HStack{
-									Label("Home", systemImage: "mappin.and.ellipse")
-										.bold()
-									
-									Spacer()
-								}
-							}
-						}
-						.font(.footnote)
-					}
+					EventCellView(event: event)
 				}
 				.listStyle(.plain)
 				.font(.footnote)
@@ -65,12 +61,12 @@ struct CalendarItemView: View, Hashable, Identifiable {
 				HStack (spacing: 0){
 					Text(day)
 						.frame(width: 50, height: 20)
-						.font(.title3)
+						.font(.title2)
 						.fontDesign(.monospaced)
 						.fontWeight(.bold)
 						.background(.white)
 						.cornerRadius(5)
-						.padding(.leading, 15)
+						.padding(.leading, 25)
 					
 					Text("\(index + 1)")
 						.frame(width: 25, height: 25, alignment: .center)
@@ -80,7 +76,7 @@ struct CalendarItemView: View, Hashable, Identifiable {
 						.background(.red.opacity(0.8))
 						.cornerRadius(10)
 						.foregroundStyle(.white)
-						.padding(.leading, 10)
+						.padding(.leading, 22)
 					
 					Spacer()
 				}
