@@ -66,7 +66,7 @@ struct CalendarItemView: View, Hashable, Identifiable {
 						.fontWeight(.bold)
 						.background(.white)
 						.cornerRadius(5)
-						.padding(.leading, 25)
+						.padding(.leading, 27)
 					
 					Text("\(index + 1)")
 						.frame(width: 25, height: 25, alignment: .center)
@@ -76,7 +76,7 @@ struct CalendarItemView: View, Hashable, Identifiable {
 						.background(.red.opacity(0.8))
 						.cornerRadius(10)
 						.foregroundStyle(.white)
-						.padding(.leading, 22)
+						.padding(.leading, 25)
 					
 					Spacer()
 				}

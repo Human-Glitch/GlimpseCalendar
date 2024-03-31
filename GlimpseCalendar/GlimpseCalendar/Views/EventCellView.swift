@@ -17,7 +17,7 @@ struct EventCellView: View {
 					Text(event.startTime.formattedTime())
 					Text(event.endTime.formattedTime())
 				}
-				.frame(width: 60, alignment: .trailing)
+				.frame(width: 65, alignment: .trailing)
 				.padding(5)
 				.foregroundColor(.white)
 				.background(.gray)
