@@ -75,4 +75,23 @@ struct MockData {
 	  
 	  return daysOfWeekInYear
 	}
+
+struct CalendarYear {
+	let year: Int
+	var calendarMonths: [CalendarMonth] = []
+}
+
+struct CalendarMonth {
+	let month: String
+	var calendarWeeks: [CalendarWeek] = []
+}
+
+struct CalendarWeek {
+	var weekNumber: Int
+	var calendarDays: [CalendarDay] = []
+}
+
+struct CalendarDay: Hashable {
+	let weekDay: String
+	let date: Date
 }
