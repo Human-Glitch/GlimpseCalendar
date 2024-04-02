@@ -19,6 +19,22 @@ struct MockData {
 		"FRI",
 		"SAT"
 	]
+	
+	static let monthsOfYear: [String] = [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December"
+	]
+	
 	static private var _calendarRows: [Int: [CalendarItemView]]  = [:]
 	
 	static var calendarRows: [Int: [CalendarItemView]] {
@@ -29,7 +45,7 @@ struct MockData {
 		
 		var result: [Int: [CalendarItemView]] = [:]
 		
-		for count in 0...4 {
+		for count in 1...4 {
 			var calendarItems: [CalendarItemView] = []
 			
 			for day in daysOfWeek {
@@ -74,6 +90,69 @@ struct MockData {
 	  }
 	  
 	  return daysOfWeekInYear
+	}
+	
+	static func getCalendarYear(for thisYear: Date) -> CalendarYear {
+		let calendar = Calendar.current
+		
+		let year = calendar.component(.year, from: thisYear)
+		var calendarYear: CalendarYear = CalendarYear(year: year)
+		
+		var calendarMonths: [CalendarMonth] = []
+		
+		var weekNumberCount = 1
+		for month in 1...12 {
+			let monthName: String = monthsOfYear[month - 1]
+			let monthDate = DateComponents(calendar: calendar, year: year, month: month, day: 1).date!
+			
+			let daysInMonth = getDaysInMonth(for: monthDate)
+			
+			var calendarDays: [CalendarDay] = []
+			for day in daysInMonth {
+				let weekDay = getDayOfWeek(for: day)
+				calendarDays.append(CalendarDay(weekDay: weekDay, date: day))
+			}
+			
+			var calendarWeeks: [CalendarWeek] = []
+			
+			var calendarWeek = CalendarWeek(weekNumber: weekNumberCount)
+			for day in calendarDays {
+				if (day.weekDay != "SAT") {
+					calendarWeek.calendarDays.append(day)
+				} else { // add sat and start a new week
+					calendarWeek.calendarDays.append(day)
+					calendarWeeks.append(calendarWeek)
+					weekNumberCount = weekNumberCount + 1
+					
+					calendarWeek = CalendarWeek(weekNumber: weekNumberCount)
+				}
+			}
+			
+			if(calendarWeek.calendarDays.count > 0) {
+				calendarWeeks.append(calendarWeek)
+			}
+			
+			var calendarMonth = CalendarMonth(month: monthName, calendarWeeks: calendarWeeks)
+			calendarMonths.append(calendarMonth)
+		}
+		
+		calendarYear.calendarMonths = calendarMonths
+	  
+		return calendarYear
+	}
+	
+	static func getDaysInMonth(for date: Date) -> [Date] {
+		let calendar = Calendar.current
+		let range = calendar.range(of: .day, in: .month, for: date)!
+		
+		var daysInMonth: [Date] = []
+		for day in 1...range.count {
+			daysInMonth.append(
+				calendar.date(bySettingHour: 0, minute: 0, second: 0, of: date)!
+					.addingTimeInterval(TimeInterval(24 * 60 * 60 * (day - 1))))
+		}
+		
+		return daysInMonth
 	}
 	
 	static func getDayOfWeek(for date: Date) -> String {
