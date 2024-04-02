@@ -75,6 +75,24 @@ struct MockData {
 	  
 	  return daysOfWeekInYear
 	}
+	
+	static func getDayOfWeek(for date: Date) -> String {
+		let calendar = Calendar.current
+		let weekday = calendar.component(.weekday, from: date)
+		let weekdays = [
+			"SUN",
+			"MON",
+			"TUE",
+			"WED",
+			"THU",
+			"FRI",
+			"SAT"
+		]
+		
+		return weekdays[weekday - 1]
+	}
+	
+}
 
 struct CalendarYear {
 	let year: Int
