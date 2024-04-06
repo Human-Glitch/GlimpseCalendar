@@ -9,37 +9,16 @@ import SwiftUI
 
 struct CalendarItemView: View, Hashable, Identifiable {
 	let id = UUID()
-	let day: String
+	let weekDay: String
+	let date: Date
 	let index: Int
 	
-	var events: [Event] = [
-		Event(
-			name: "Blah",
-			startTime: Calendar.current.date(bySettingHour: 10, minute: 0, second: 0, of: Date())!,
-			endTime: Calendar.current.date(bySettingHour: 11, minute: 0, second: 0, of: Date())!,
-			location: "Home"),
-		Event(
-			name: "Blah",
-			startTime: Calendar.current.date(bySettingHour: 11, minute: 0, second: 0, of: Date())!,
-			endTime: Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: Date())!,
-			location: "Home"),
-		Event(
-			name: "Blah",
-			startTime: Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: Date())!,
-			endTime: Calendar.current.date(bySettingHour: 13, minute: 0, second: 0, of: Date())!,
-			location: "Home"),
-		Event(
-			name: "Blah",
-			startTime: Calendar.current.date(bySettingHour: 13, minute: 0, second: 0, of: Date())!,
-			endTime: Calendar.current.date(bySettingHour: 14, minute: 0, second: 0, of: Date())!,
-			location: "Home"),
-		Event(
-			name: "Blah",
-			startTime: Calendar.current.date(bySettingHour: 14, minute: 0, second: 0, of: Date())!,
-			endTime: Calendar.current.date(bySettingHour: 15, minute: 0, second: 0, of: Date())!,
-			location: "Home"),
-		
-	]
+	var dayNumber: String {
+		let formatter = DateFormatter()
+		formatter.dateFormat = "d"
+
+		return formatter.string(from: date)
+	}
 	
 	var body: some View {
 		ZStack {
@@ -49,7 +28,7 @@ struct CalendarItemView: View, Hashable, Identifiable {
 			
 			VStack{
 				Spacer(minLength: 30)
-				List(events, id: \.self) { event in
+				List(MockData.events, id: \.self) { event in
 					EventCellView(event: event)
 				}
 				.listStyle(.plain)
@@ -59,7 +38,7 @@ struct CalendarItemView: View, Hashable, Identifiable {
 			
 			VStack{
 				HStack (spacing: 0){
-					Text(day)
+					Text("\(weekDay)")
 						.frame(width: 50, height: 20)
 						.font(.title2)
 						.fontDesign(.monospaced)
@@ -68,7 +47,7 @@ struct CalendarItemView: View, Hashable, Identifiable {
 						.cornerRadius(5)
 						.padding(.leading, 27)
 					
-					Text("\(index + 1)")
+					Text("\(dayNumber)")
 						.frame(width: 25, height: 25, alignment: .center)
 						.font(.title3)
 						.fontDesign(.monospaced)
@@ -93,7 +72,7 @@ struct CalendarItemView: View, Hashable, Identifiable {
 #Preview {
 	Group {
 		VStack {
-			CalendarItemView(day: "MON", index: 0)
+			CalendarItemView(weekDay: "MON", date: Date(), index: 0)
 		}
 	}
 }

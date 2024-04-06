@@ -59,7 +59,8 @@ struct CalendarRowCarouselView: View {
 			}
 		} else {
 			HStack(alignment: .center) {
-				let calendarItems = calendarItems
+				
+				Spacer()
 				
 				ForEach(calendarItems) { calendarItem in
 					calendarItem
@@ -75,7 +76,7 @@ struct CalendarRowCarouselView: View {
 					
 				}
 			}
-			.padding(5)
+			.frame(width: 375)
 		}
 	}
 }
@@ -100,15 +101,17 @@ struct CustomCalendarRowStyle: ViewModifier {
 					.frame(width: 20, height: 20)
 					.clipShape(RoundedRectangle(cornerRadius: 10))
 					.shadow(radius: 5, y: 10)
-					.padding(5)
+					.padding(10)
 					.foregroundStyle(.quaternary)
 					.background(.quaternary)
 				
 				VStack {
 					HStack (alignment: .center) {
-						Text("\(calendarItem.index + 1)")
+						Text("\(calendarItem.dayNumber)")
 							.frame(width: 20, height: 20, alignment: .center)
 							.font(.title3)
+							.minimumScaleFactor(0.5)
+							.scaledToFit()
 							.fontWeight(.semibold)
 							.padding(13)
 							.background(.red.opacity(0.8))
@@ -126,7 +129,7 @@ struct CustomCalendarRowStyle: ViewModifier {
 		CalendarRowCarouselView(
 			selectedItem: .constant(nil),
 			selectedRow: .constant(0), selectedIndex: .constant(0),
-			calendarItems: MockData.calendarRows[1]!,
+			calendarItems: MockData.calendarRows[0].calendarItemViews,
 			row: 1,
 			activeRow: false)
 		
@@ -134,7 +137,7 @@ struct CustomCalendarRowStyle: ViewModifier {
 			selectedItem: .constant(nil),
 			selectedRow: .constant(2), 
 			selectedIndex: .constant(0),
-			calendarItems: MockData.calendarRows[2]!,
+			calendarItems: MockData.calendarRows[1].calendarItemViews,
 			row: 2,
 			activeRow: true)
 	}

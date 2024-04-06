@@ -35,32 +35,63 @@ struct MockData {
 		"December"
 	]
 	
-	static private var _calendarRows: [Int: [CalendarItemView]]  = [:]
+	static let events: [Event] = [
+		Event(
+			name: "Blah",
+			startTime: Calendar.current.date(bySettingHour: 10, minute: 0, second: 0, of: Date())!,
+			endTime: Calendar.current.date(bySettingHour: 11, minute: 0, second: 0, of: Date())!,
+			location: "Home"),
+		Event(
+			name: "Blah",
+			startTime: Calendar.current.date(bySettingHour: 11, minute: 0, second: 0, of: Date())!,
+			endTime: Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: Date())!,
+			location: "Home"),
+		Event(
+			name: "Blah",
+			startTime: Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: Date())!,
+			endTime: Calendar.current.date(bySettingHour: 13, minute: 0, second: 0, of: Date())!,
+			location: "Home"),
+		Event(
+			name: "Blah",
+			startTime: Calendar.current.date(bySettingHour: 13, minute: 0, second: 0, of: Date())!,
+			endTime: Calendar.current.date(bySettingHour: 14, minute: 0, second: 0, of: Date())!,
+			location: "Home"),
+		Event(
+			name: "Blah",
+			startTime: Calendar.current.date(bySettingHour: 14, minute: 0, second: 0, of: Date())!,
+			endTime: Calendar.current.date(bySettingHour: 15, minute: 0, second: 0, of: Date())!,
+			location: "Home"),
+		
+	]
 	
-	static var calendarRows: [Int: [CalendarItemView]] {
+	static private var _calendarRows: [CalendarRow] = []
+	
+	static var calendarRows: [CalendarRow] {
 		
 		if(_calendarRows.count > 0){
 			return _calendarRows
 		}
 		
-		var result: [Int: [CalendarItemView]] = [:]
+		var result: [CalendarRow] = []
 		
-		for count in 1...4 {
-			var calendarItems: [CalendarItemView] = []
-			
-			for day in daysOfWeek {
-				if let index = daysOfWeek.firstIndex(of: day) {
-					let calendarItem = CalendarItemView(day: day, index: index)
+		let now = Date()
+
+		let calendarYear = getCalendarYear(for: now)
+		
+		for calendarMonth in calendarYear.calendarMonths {
+			for calendarWeek in calendarMonth.calendarWeeks {
+				var calendarItems: [CalendarItemView] = []
+				for calendarDay in calendarWeek.calendarDays {
+					let index = calendarWeek.calendarDays.firstIndex(of: calendarDay)!
+					let calendarItem = CalendarItemView(weekDay: calendarDay.weekDay, date: calendarDay.date, index: index)
 					calendarItems.append(calendarItem)
-				} else {
-					print("Failed to grab index")
 				}
+				
+				result.append(CalendarRow(row: calendarWeek.weekNumber, calendarItemViews: calendarItems))
 			}
-			
-			result.updateValue(calendarItems, forKey: count)
 		}
 		
-		_calendarRows = result;
+		_calendarRows = result
 		
 		return result
 	}
@@ -132,7 +163,7 @@ struct MockData {
 				calendarWeeks.append(calendarWeek)
 			}
 			
-			var calendarMonth = CalendarMonth(month: monthName, calendarWeeks: calendarWeeks)
+			let calendarMonth = CalendarMonth(month: monthName, calendarWeeks: calendarWeeks)
 			calendarMonths.append(calendarMonth)
 		}
 		
@@ -191,4 +222,11 @@ struct CalendarWeek {
 struct CalendarDay: Hashable {
 	let weekDay: String
 	let date: Date
+}
+
+struct CalendarRow: Hashable, Identifiable {
+	let id = UUID()
+	
+	let row: Int
+	let calendarItemViews: [CalendarItemView]
 }
