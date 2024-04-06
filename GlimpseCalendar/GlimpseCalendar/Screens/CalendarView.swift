@@ -25,7 +25,7 @@ struct CalendarView: View {
 					.padding(.bottom, 30)
 				
 				HStack(alignment: .bottom) {
-					Text("March 2024")
+					Text("January 2024")
 						.font(.largeTitle)
 						.fontDesign(.monospaced)
 						.fontWeight(.heavy)
@@ -48,19 +48,6 @@ struct CalendarView: View {
 						calendarWeek
 					}
 				}
-				
-//				ScrollView{
-//					ForEach(calendarRows) { calendarRow in
-//						
-//						CalendarRowCarouselView(
-//							selectedItem: $selectedItem,
-//							selectedRow: $selectedRow,
-//							selectedIndex: $selectedIndex,
-//							calendarItems: calendarRow.calendarItemViews,
-//							row: calendarRow.row,
-//							activeRow: selectedRow == calendarRow.row)
-//					}
-//				}
 			}
 			.padding(10)
 	}
