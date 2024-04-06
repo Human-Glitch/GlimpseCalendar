@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct CalendarRowCarouselView: View {
+struct CalendarRowCarouselView: View, Identifiable {
+	let id = UUID()
 	@Binding var selectedItem: CalendarItemView?
 	@Binding var selectedRow: Int
 	@Binding var selectedIndex: Int
@@ -67,8 +68,8 @@ struct CalendarRowCarouselView: View {
 						.modifier(CustomCalendarRowStyle(row: row, activeRow: activeRow, calendarItem: calendarItem)) // Apply the drag offset to position
 						.onTapGesture {
 							withAnimation(.interactiveSpring(duration: 0.4))  {
-								selectedIndex = calendarItem.index
-								selectedItem = calendarItem
+								selectedIndex = calendarItem.index - 1
+								selectedItem = calendarItems[selectedIndex]
 								selectedRow = row
 							}
 						}

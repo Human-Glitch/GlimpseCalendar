@@ -204,29 +204,32 @@ struct MockData {
 	
 }
 
-struct CalendarYear {
+struct CalendarYear: Hashable, Identifiable {
+	let id = UUID()
 	let year: Int
 	var calendarMonths: [CalendarMonth] = []
 }
 
-struct CalendarMonth {
+struct CalendarMonth: Hashable, Identifiable {
+	let id = UUID()
 	let month: String
 	var calendarWeeks: [CalendarWeek] = []
 }
 
-struct CalendarWeek {
+struct CalendarWeek: Hashable, Identifiable{
+	let id = UUID()
 	var weekNumber: Int
 	var calendarDays: [CalendarDay] = []
 }
 
-struct CalendarDay: Hashable {
+struct CalendarDay: Hashable, Identifiable {
+	let id = UUID()
 	let weekDay: String
 	let date: Date
 }
 
 struct CalendarRow: Hashable, Identifiable {
 	let id = UUID()
-	
 	let row: Int
 	let calendarItemViews: [CalendarItemView]
 }
