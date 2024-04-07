@@ -22,7 +22,7 @@ struct CalendarView: View {
 						selectedRow = -1
 						selectedItem = nil
 					}
-					.padding(.bottom, 30)
+					.padding(.bottom, 25)
 				
 				HStack(alignment: .bottom) {
 					Text("January 2024")
@@ -46,6 +46,7 @@ struct CalendarView: View {
 				let calendarWeeks = buildCalendarByMonth(calendarYear: calendarYear)
 				ForEach(calendarWeeks) { calendarWeek in
 					calendarWeek
+						.padding(5)
 				}
 				
 				Spacer()
