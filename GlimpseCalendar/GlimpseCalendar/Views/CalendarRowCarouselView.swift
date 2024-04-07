@@ -60,22 +60,30 @@ struct CalendarRowCarouselView: View, Identifiable {
 			}
 		} else {
 			HStack(alignment: .center) {
+				ForEach(calendarItems) { calendarItem in
+					
+					if(calendarItem.weekDay == "Blank") {
+						calendarItem
+							.frame(width: 20, height: 20)
+							.clipShape(RoundedRectangle(cornerRadius: 10))
+							.padding(13)
+							.foregroundStyle(.clear)
+							.background(.clear)
+						
+					} else {
+						calendarItem
+							.modifier(CustomCalendarRowStyle(row: row, activeRow: activeRow, calendarItem: calendarItem)) // Apply the drag offset to position
+							.onTapGesture {
+								withAnimation(.interactiveSpring(duration: 0.4))  {
+									selectedIndex = calendarItem.index
+									selectedItem = calendarItems[selectedIndex]
+									selectedRow = row
+								}
+							}
+					}
+				}
 				
 				Spacer()
-				
-				ForEach(calendarItems) { calendarItem in
-					calendarItem
-						.modifier(CustomCalendarRowStyle(row: row, activeRow: activeRow, calendarItem: calendarItem)) // Apply the drag offset to position
-						.onTapGesture {
-							withAnimation(.interactiveSpring(duration: 0.4))  {
-								selectedIndex = calendarItem.index - 1
-								selectedItem = calendarItems[selectedIndex]
-								selectedRow = row
-							}
-						}
-					
-					
-				}
 			}
 			.frame(width: 375)
 		}
@@ -101,10 +109,8 @@ struct CustomCalendarRowStyle: ViewModifier {
 				content
 					.frame(width: 20, height: 20)
 					.clipShape(RoundedRectangle(cornerRadius: 10))
-					.shadow(radius: 5, y: 10)
-					.padding(10)
-					.foregroundStyle(.quaternary)
-					.background(.quaternary)
+					.padding(13)
+					.foregroundStyle(.clear)
 				
 				VStack {
 					HStack (alignment: .center) {

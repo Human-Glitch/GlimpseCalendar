@@ -43,11 +43,12 @@ struct CalendarView: View {
 				}
 				.frame(width: 400, height: 50)
 				
-				ScrollView {
-					ForEach(buildCalendarByMonth(calendarYear: calendarYear)) { calendarWeek in
-						calendarWeek
-					}
+				let calendarWeeks = buildCalendarByMonth(calendarYear: calendarYear)
+				ForEach(calendarWeeks) { calendarWeek in
+					calendarWeek
 				}
+				
+				Spacer()
 			}
 			.padding(10)
 	}

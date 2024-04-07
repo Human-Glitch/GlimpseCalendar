@@ -159,6 +159,11 @@ struct MockData {
 				}
 			}
 			
+			while(calendarWeeks[0].calendarDays.count < 7) {
+				let blankDay = CalendarDay(weekDay: "Blank", date: Date())
+				calendarWeeks[0].calendarDays.insert(blankDay, at: 0)
+			}
+			
 			if(calendarWeek.calendarDays.count > 0) {
 				calendarWeeks.append(calendarWeek)
 			}
@@ -204,32 +209,27 @@ struct MockData {
 	
 }
 
-struct CalendarYear: Hashable, Identifiable {
-	let id = UUID()
+struct CalendarYear: Hashable {
 	let year: Int
 	var calendarMonths: [CalendarMonth] = []
 }
 
-struct CalendarMonth: Hashable, Identifiable {
-	let id = UUID()
+struct CalendarMonth: Hashable {
 	let month: String
 	var calendarWeeks: [CalendarWeek] = []
 }
 
-struct CalendarWeek: Hashable, Identifiable{
-	let id = UUID()
+struct CalendarWeek: Hashable{
 	var weekNumber: Int
 	var calendarDays: [CalendarDay] = []
 }
 
-struct CalendarDay: Hashable, Identifiable {
-	let id = UUID()
+struct CalendarDay: Hashable {
 	let weekDay: String
 	let date: Date
 }
 
-struct CalendarRow: Hashable, Identifiable {
-	let id = UUID()
+struct CalendarRow: Hashable {
 	let row: Int
 	let calendarItemViews: [CalendarItemView]
 }
