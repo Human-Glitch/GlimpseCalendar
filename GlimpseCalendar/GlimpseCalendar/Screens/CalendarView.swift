@@ -11,6 +11,9 @@ struct CalendarView: View {
 	@State var selectedRow = -1
 	@State var selectedItem: CalendarItemView?
 	@State var selectedIndex: Int = 0
+	@State var selectedMonth: Date = Date()
+	
+	private var today = Date()
 	private var calendarYear = MockData.getCalendarYear(for: Date())
 	
 	var body: some View {
@@ -25,12 +28,62 @@ struct CalendarView: View {
 					.padding(.bottom, 25)
 				
 				HStack(alignment: .bottom) {
-					Text("January 2024")
+					Text(MockData.getMonthAndYear(for: selectedMonth))
 						.font(.largeTitle)
 						.fontDesign(.monospaced)
 						.fontWeight(.heavy)
+						.minimumScaleFactor(0.5)
+						.scaledToFit()
 					
 					Spacer()
+					
+					Button {
+						selectedMonth = today
+						
+						selectedRow = -1
+						selectedItem = nil
+						selectedIndex = 0
+						
+					} label: {
+						Image(systemName: "clock.circle.fill")
+							.resizable()
+							.scaledToFit()
+							.frame(width: 30, height: 30)
+							.padding(5)
+					}
+					
+					Button {
+						let previousMonth = Calendar.current.date(byAdding: .month, value: -1, to: selectedMonth)!
+						
+						selectedMonth = previousMonth
+						
+						selectedRow = -1
+						selectedItem = nil
+						selectedIndex = 0
+					} label: {
+						Image(systemName: "chevron.up")
+							.resizable()
+							.scaledToFit()
+							.frame(width: 30, height: 30)
+							.padding(5)
+					}
+					
+					Button {
+						let nextMonth = Calendar.current.date(byAdding: .month, value: 1, to: selectedMonth)!
+						
+						selectedMonth = nextMonth
+						
+						selectedRow = -1
+						selectedItem = nil
+						selectedIndex = 0
+						
+					} label: {
+						Image(systemName: "chevron.down")
+							.resizable()
+							.scaledToFit()
+							.frame(width: 30, height: 30)
+							.padding(5)
+					}
 				}
 				
 				HStack(alignment: .center, spacing: 5){
@@ -43,7 +96,7 @@ struct CalendarView: View {
 				}
 				.frame(width: 400, height: 50)
 				
-				let calendarWeeks = buildCalendarByMonth(calendarYear: calendarYear)
+				let calendarWeeks = buildCalendarByMonth(calendarYear: calendarYear, selectedMonth: selectedMonth)
 				ForEach(calendarWeeks) { calendarWeek in
 					calendarWeek
 						.padding(5)
@@ -54,10 +107,12 @@ struct CalendarView: View {
 			.padding(10)
 	}
 	
-	func buildCalendarByMonth(calendarYear: CalendarYear) -> [CalendarRowCarouselView] {
+	func buildCalendarByMonth(calendarYear: CalendarYear, selectedMonth: Date) -> [CalendarRowCarouselView] {
+		let calendar = Calendar.current
+		let month = calendar.component(.month, from: selectedMonth)
 		
 		var calendarWeeks: [CalendarRowCarouselView] = []
-		for calendarWeek in calendarYear.calendarMonths[0].calendarWeeks {
+		for calendarWeek in calendarYear.calendarMonths[month - 1].calendarWeeks {
 			var calendarItems: [CalendarItemView] = []
 			for calendarDay in calendarWeek.calendarDays {
 				let index = calendarWeek.calendarDays.firstIndex(of: calendarDay)!

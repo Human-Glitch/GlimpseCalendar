@@ -191,20 +191,20 @@ struct MockData {
 		return daysInMonth
 	}
 	
+	static func getMonthAndYear(for date: Date) -> String {
+		let calendar = Calendar.current
+		let month = calendar.component(.month, from: date)
+		let year = calendar.component(.year, from: date)
+		
+		return "\(year)\n\(monthsOfYear[month - 1])"
+		
+	}
+	
 	static func getDayOfWeek(for date: Date) -> String {
 		let calendar = Calendar.current
 		let weekday = calendar.component(.weekday, from: date)
-		let weekdays = [
-			"SUN",
-			"MON",
-			"TUE",
-			"WED",
-			"THU",
-			"FRI",
-			"SAT"
-		]
 		
-		return weekdays[weekday - 1]
+		return daysOfWeek[weekday - 1]
 	}
 	
 }
