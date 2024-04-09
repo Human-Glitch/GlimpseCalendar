@@ -42,14 +42,14 @@ struct CalendarRowCarouselView: View, Identifiable {
 					.onEnded({ value in
 						let threshold: CGFloat = 50
 						if value.translation.width > threshold {
-							withAnimation(.interactiveSpring(duration: 0.5))  {
+							withAnimation(.interactiveSpring(duration: 0.2))  {
 								selectedIndex = max(0, selectedIndex - 1)
 								
 								selectedItem = calendarItems[selectedIndex]
 								selectedRow = row
 							}
 						} else if value.translation.width < -threshold {
-							withAnimation(.interactiveSpring(duration: 0.5)) {
+							withAnimation(.interactiveSpring(duration: 0.2)) {
 								selectedIndex = min(calendarItems.count - 1, selectedIndex + 1)
 								
 								selectedItem = calendarItems[selectedIndex]
