@@ -96,33 +96,6 @@ struct MockData {
 		return result
 	}
 	
-	static func getDaysOfWeekInYear(for date: Date) -> [(date: Date, weekday: String)] {
-		let calendar = Calendar.current
-		let year = calendar.component(.year, from: date)
-
-		// Create a DateComponents object for the beginning of the year
-		var components = DateComponents(year: year, month: 1, day: 1)
-
-		// Get the total number of days in the year
-		let dateInNextYear = calendar.date(byAdding: .year, value: 1, to: components.date!)!
-		let daysInYear = calendar.dateComponents([.day], from: components.date!, to: dateInNextYear).day!
-
-		var daysOfWeekInYear: [(date: Date, weekday: String)] = []
-		let weekdayFormatter = DateFormatter()
-		weekdayFormatter.dateFormat = "EEEE" // Full weekday name (e.g., Tuesday)
-
-		for _ in 1...daysInYear {
-			let dayDate = components.date!
-			let weekday = weekdayFormatter.string(from: dayDate)
-			daysOfWeekInYear.append((date: dayDate, weekday: weekday))
-			
-			let newDate = calendar.date(byAdding: .day, value: 1, to: components.date!)!
-			components = calendar.dateComponents([.year, .month, .day], from: newDate)
-	  }
-	  
-	  return daysOfWeekInYear
-	}
-	
 	static func getCalendarYear(for thisYear: Date) -> CalendarYear {
 		let calendar = Calendar.current
 		
