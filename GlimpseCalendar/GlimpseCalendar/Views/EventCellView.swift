@@ -17,8 +17,9 @@ struct EventCellView: View {
 					Text(event.startTime.formattedTime())
 					Text(event.endTime.formattedTime())
 				}
-				.frame(width: 65, alignment: .trailing)
+				.frame(width: 55, alignment: .trailing)
 				.padding(5)
+				.font(.caption2)
 				.foregroundColor(.white)
 				.background(.gray)
 				.cornerRadius(10)
@@ -42,7 +43,7 @@ struct EventCellView: View {
 					}
 				}
 			}
-			.font(.footnote)
+			.font(.caption)
 		}
     }
 }

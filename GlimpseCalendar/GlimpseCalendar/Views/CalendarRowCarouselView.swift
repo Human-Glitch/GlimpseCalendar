@@ -24,18 +24,21 @@ struct CalendarRowCarouselView: View, Identifiable {
 			VStack {
 				ZStack {
 					ForEach(calendarItems) { calendarItem in
-						calendarItem
-							.modifier(CustomCalendarRowStyle(row: row, activeRow: activeRow, calendarItem: calendarItem))
-							.opacity(calendarItem.index == selectedIndex ? 1.0 : 0.8)
-							.scaleEffect(calendarItem.index == selectedIndex ? 1.2 : 0.5)
-							.offset(x: CGFloat(calendarItem.index - selectedIndex) * 220 + dragOffset, y: 0)
-							.onTapGesture {
-								withAnimation(.interactiveSpring(duration: 0.4))  {
-									selectedIndex = calendarItem.index
-									selectedItem = calendarItem
-									selectedRow = row
+						
+						if(calendarItem.weekDay != "Blank") {
+							calendarItem
+								.modifier(CustomCalendarRowStyle(row: row, activeRow: activeRow, calendarItem: calendarItem))
+								.opacity(calendarItem.index == selectedIndex ? 1.0 : 0.8)
+								.scaleEffect(calendarItem.index == selectedIndex ? 1.2 : 0.5)
+								.offset(x: CGFloat(calendarItem.index - selectedIndex) * 220 + dragOffset, y: 0)
+								.onTapGesture {
+									withAnimation(.interactiveSpring(duration: 0.4))  {
+										selectedIndex = calendarItem.index
+										selectedItem = calendarItem
+										selectedRow = row
+									}
 								}
-							}
+						}
 					}
 				}
 				.gesture(DragGesture()
