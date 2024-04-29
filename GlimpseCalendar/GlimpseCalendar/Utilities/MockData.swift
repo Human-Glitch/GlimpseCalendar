@@ -125,6 +125,13 @@ struct MockData {
 					calendarWeek.calendarDays.append(day)
 				} else { // add sat and start a new week
 					calendarWeek.calendarDays.append(day)
+					
+					// Workaround for bug in apple calendar
+					// for November months duping days
+					if(calendarWeek.calendarDays.count > 7) {
+						calendarWeek.calendarDays.remove(at: 0)
+					}
+					
 					calendarWeeks.append(calendarWeek)
 					weekNumberCount = weekNumberCount + 1
 					
