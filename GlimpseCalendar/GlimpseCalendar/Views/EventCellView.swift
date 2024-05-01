@@ -48,31 +48,6 @@ struct EventCellView: View {
     }
 }
 
-struct Event: Hashable {
-	init(name: String,
-		startTime: Date,
-		endTime: Date,
-		location: String) {
-		self.name = name
-		self.startTime = startTime
-		self.endTime = endTime
-		self.location = location
-	}
-	
-	var name: String
-	var startTime: Date
-	var endTime: Date
-	var location: String
-}
-
-extension Date {
-	func formattedTime(format: String = "h:mm a") -> String {
-		let formatter = DateFormatter()
-		formatter.dateFormat = format
-		return formatter.string(from: self)
-	}
-}
-
 #Preview {
 	EventCellView(event: Event(name: "Blah", startTime: Date(), endTime: Date(), location: "Home"))
 }
