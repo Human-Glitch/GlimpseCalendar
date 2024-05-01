@@ -13,6 +13,8 @@ struct CalendarItemView: View, Hashable, Identifiable {
 	let date: Date
 	let index: Int
 	
+	var events: [Event]
+	
 	var dayNumber: String {
 		let formatter = DateFormatter()
 		formatter.dateFormat = "d"
@@ -28,7 +30,7 @@ struct CalendarItemView: View, Hashable, Identifiable {
 			
 			VStack{
 				Spacer(minLength: 30)
-				List(MockData.events, id: \.self) { event in
+				List(events, id: \.self) { event in
 					EventCellView(event: event)
 				}
 				.listStyle(.plain)
@@ -72,7 +74,7 @@ struct CalendarItemView: View, Hashable, Identifiable {
 #Preview {
 	Group {
 		VStack {
-			CalendarItemView(weekDay: "MON", date: Date(), index: 0)
+			CalendarItemView(weekDay: "MON", date: Date(), index: 0, events: MockData.events)
 		}
 	}
 }

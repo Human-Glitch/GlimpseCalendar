@@ -83,7 +83,7 @@ struct MockData {
 				var calendarItems: [CalendarItemView] = []
 				for calendarDay in calendarWeek.calendarDays {
 					let index = calendarWeek.calendarDays.firstIndex(of: calendarDay)!
-					let calendarItem = CalendarItemView(weekDay: calendarDay.weekDay, date: calendarDay.date, index: index)
+					let calendarItem = CalendarItemView(weekDay: calendarDay.weekDay, date: calendarDay.date, index: index, events: events)
 					calendarItems.append(calendarItem)
 				}
 				
