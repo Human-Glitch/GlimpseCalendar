@@ -32,7 +32,7 @@ struct CalendarRowCarouselView: View, Identifiable {
 								.scaleEffect(calendarItem.index == selectedIndex ? 1.2 : 0.5)
 								.offset(x: CGFloat(calendarItem.index - selectedIndex) * 220 + dragOffset, y: 0)
 								.onTapGesture {
-									withAnimation(.interactiveSpring(duration: 0.4))  {
+									withAnimation(.interactiveSpring(duration: 0.4)) {
 										selectedIndex = calendarItem.index
 										selectedItem = calendarItem
 										selectedRow = row
