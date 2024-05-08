@@ -112,6 +112,18 @@ struct MockData {
 				calendarWeeks[0].calendarDays.insert(blankDay, at: 0)
 			}
 			
+			var weekCount = 0
+			for calendarWeek in calendarWeeks {
+				
+				var dayCount = 0
+				for _ in calendarWeek.calendarDays {
+					calendarWeeks[weekCount].calendarDays[dayCount].index = dayCount
+					dayCount += 1
+				}
+				
+				weekCount += 1
+			}
+			
 			if(calendarWeek.calendarDays.count > 0) {
 				calendarWeeks.append(calendarWeek)
 			}
@@ -173,6 +185,15 @@ struct CalendarWeek: Hashable{
 }
 
 struct CalendarDay: Hashable {
+	init(weekDay: String, date: Date, index: Int = 0, events: [Event]? = nil) {
+		self.weekDay = weekDay
+		self.date = date
+		self.index = 0
+		self.events = events
+	}
+	
 	let weekDay: String
 	let date: Date
+	var index: Int
+	var events: [Event]?
 }

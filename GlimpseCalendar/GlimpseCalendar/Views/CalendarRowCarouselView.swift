@@ -14,11 +14,13 @@ struct CalendarRowCarouselView: View, Identifiable {
 	@Binding var selectedIndex: Int
 	@GestureState private var dragOffset: CGFloat = 0
 	
-	let calendarItems: [CalendarItemView]
+	let calendarDays: [CalendarDay]
 	let row: Int
 	var activeRow: Bool
 	
 	var body: some View {
+		
+		let calendarItems: [CalendarItemView] = buildCalendarItems(calendarDays: calendarDays)
 		
 		if(row > -1 && activeRow) {
 			VStack {
@@ -26,6 +28,7 @@ struct CalendarRowCarouselView: View, Identifiable {
 					ForEach(calendarItems) { calendarItem in
 						
 						if(calendarItem.weekDay != "Blank") {
+							
 							calendarItem
 								.modifier(CustomCalendarRowStyle(row: row, activeRow: activeRow, calendarItem: calendarItem))
 								.opacity(calendarItem.index == selectedIndex ? 1.0 : 0.8)
@@ -45,15 +48,15 @@ struct CalendarRowCarouselView: View, Identifiable {
 					.onEnded({ value in
 						let threshold: CGFloat = 50
 						if value.translation.width > threshold {
-							withAnimation(.interactiveSpring(duration: 0.2))  {
+							withAnimation(.interactiveSpring(duration: 0.4))  {
 								selectedIndex = max(0, selectedIndex - 1)
 								
 								selectedItem = calendarItems[selectedIndex]
 								selectedRow = row
 							}
 						} else if value.translation.width < -threshold {
-							withAnimation(.interactiveSpring(duration: 0.2)) {
-								selectedIndex = min(calendarItems.count - 1, selectedIndex + 1)
+							withAnimation(.interactiveSpring(duration: 0.4)) {
+								selectedIndex = min(calendarDays.count - 1, selectedIndex + 1)
 								
 								selectedItem = calendarItems[selectedIndex]
 								selectedRow = row
@@ -90,6 +93,19 @@ struct CalendarRowCarouselView: View, Identifiable {
 			}
 			.frame(width: 375)
 		}
+	}
+	
+	func buildCalendarItems(calendarDays: [CalendarDay]) -> [CalendarItemView] {
+		var calendarItems: [CalendarItemView] = []
+		for calendarDay in calendarDays {
+			let index = calendarDays.firstIndex(of: calendarDay)!
+			
+			let calendarItem = CalendarItemView(weekDay: calendarDay.weekDay, date: calendarDay.date, index: index)
+												
+			calendarItems.append(calendarItem)
+		}
+		
+		return calendarItems
 	}
 }
 

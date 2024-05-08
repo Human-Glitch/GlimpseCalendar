@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CalendarItemView: View, Identifiable {
 	let id = UUID()
@@ -13,9 +14,10 @@ struct CalendarItemView: View, Identifiable {
 	let date: Date
 	let index: Int
 	
-	@Binding var selectedEvent: Event?
+	@State private var selectedEvent: Event?
 	
-	var events: [Event]
+	@Query(sort: \Event.startTime)
+	private var events: [Event]
 	
 	var dayNumber: String {
 		let formatter = DateFormatter()
@@ -32,7 +34,7 @@ struct CalendarItemView: View, Identifiable {
 			
 			VStack{
 				Spacer(minLength: 30)
-				List(events, id: \.self) { event in
+				List(fetchEvents(events: events), id: \.self) { event in
 					EventCellView(event: event)
 				}
 				.listStyle(.plain)
@@ -69,14 +71,21 @@ struct CalendarItemView: View, Identifiable {
 			}
 			
 		}
+	}
+	
+	func fetchEvents(events: [Event]) -> [Event] {
+		let dayEvents = events.filter { dayEvent in
+			dayEvent.startTime.formattedTime(format: "yyyy-MM-dd") == date.formattedTime(format: "yyyy-MM-dd")
+		}
 		
+		return dayEvents
 	}
 }
 
 #Preview {
 	Group {
 		VStack {
-			CalendarItemView(weekDay: "MON", date: Date(), index: 0, selectedEvent: .constant(nil), events: MockData.events)
+			CalendarItemView(weekDay: "MON", date: Date(), index: 0)
 		}
 	}
 }
