@@ -134,21 +134,21 @@ struct CustomCalendarRowStyle: ViewModifier {
 	}
 }
 
-#Preview {
-	VStack{
-		CalendarRowCarouselView(
-			selectedItem: .constant(nil),
-			selectedRow: .constant(0), selectedIndex: .constant(0),
-			calendarItems: MockData.calendarRows[0].calendarItemViews,
-			row: 1,
-			activeRow: false)
-		
-		CalendarRowCarouselView(
-			selectedItem: .constant(nil),
-			selectedRow: .constant(2), 
-			selectedIndex: .constant(0),
-			calendarItems: MockData.calendarRows[1].calendarItemViews,
-			row: 2,
-			activeRow: true)
-	}
-}
+//#Preview {
+//	VStack{
+//		CalendarRowCarouselView(
+//			selectedItem: .constant(nil),
+//			selectedRow: .constant(0), selectedIndex: .constant(0),
+//			calendarItems: MockData.calendarRows[0].calendarItemViews,
+//			row: 1,
+//			activeRow: false)
+//		
+//		CalendarRowCarouselView(
+//			selectedItem: .constant(nil),
+//			selectedRow: .constant(2), 
+//			selectedIndex: .constant(0),
+//			calendarItems: MockData.calendarRows[1].calendarItemViews,
+//			row: 2,
+//			activeRow: true)
+//	}
+//}

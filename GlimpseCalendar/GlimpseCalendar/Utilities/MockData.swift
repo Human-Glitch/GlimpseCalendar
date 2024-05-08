@@ -64,38 +64,6 @@ struct MockData {
 		
 	]
 	
-	static private var _calendarRows: [CalendarRow] = []
-	
-	static var calendarRows: [CalendarRow] {
-		
-		if(_calendarRows.count > 0){
-			return _calendarRows
-		}
-		
-		var result: [CalendarRow] = []
-		
-		let now = Date()
-
-		let calendarYear = getCalendarYear(for: now)
-		
-		for calendarMonth in calendarYear.calendarMonths {
-			for calendarWeek in calendarMonth.calendarWeeks {
-				var calendarItems: [CalendarItemView] = []
-				for calendarDay in calendarWeek.calendarDays {
-					let index = calendarWeek.calendarDays.firstIndex(of: calendarDay)!
-					let calendarItem = CalendarItemView(weekDay: calendarDay.weekDay, date: calendarDay.date, index: index, events: events)
-					calendarItems.append(calendarItem)
-				}
-				
-				result.append(CalendarRow(row: calendarWeek.weekNumber, calendarItemViews: calendarItems))
-			}
-		}
-		
-		_calendarRows = result
-		
-		return result
-	}
-	
 	static func getCalendarYear(for thisYear: Date) -> CalendarYear {
 		let calendar = Calendar.current
 		
@@ -207,9 +175,4 @@ struct CalendarWeek: Hashable{
 struct CalendarDay: Hashable {
 	let weekDay: String
 	let date: Date
-}
-
-struct CalendarRow: Hashable {
-	let row: Int
-	let calendarItemViews: [CalendarItemView]
 }

@@ -7,11 +7,13 @@
 
 import SwiftUI
 
-struct CalendarItemView: View, Hashable, Identifiable {
+struct CalendarItemView: View, Identifiable {
 	let id = UUID()
 	let weekDay: String
 	let date: Date
 	let index: Int
+	
+	@Binding var selectedEvent: Event?
 	
 	var events: [Event]
 	
@@ -74,7 +76,7 @@ struct CalendarItemView: View, Hashable, Identifiable {
 #Preview {
 	Group {
 		VStack {
-			CalendarItemView(weekDay: "MON", date: Date(), index: 0, events: MockData.events)
+			CalendarItemView(weekDay: "MON", date: Date(), index: 0, selectedEvent: .constant(nil), events: MockData.events)
 		}
 	}
 }

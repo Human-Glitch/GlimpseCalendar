@@ -13,6 +13,7 @@ struct CalendarView: View {
 	@State var selectedItem: CalendarItemView?
 	@State var selectedIndex: Int = 0
 	@State var selectedMonth: Date = Date()
+	@State var selectedEvent: Event? = nil
 	
 	@State var showAddView = false
 	
@@ -146,7 +147,7 @@ struct CalendarView: View {
 					dayEvent.startTime.formattedTime(format: "yyyy-MM-dd") == calendarDay.date.formattedTime(format: "yyyy-MM-dd")
 				}
 				
-				let calendarItem = CalendarItemView(weekDay: calendarDay.weekDay, date: calendarDay.date, index: index, events: dayEvents)
+				let calendarItem = CalendarItemView(weekDay: calendarDay.weekDay, date: calendarDay.date, index: index, selectedEvent: $selectedEvent, events: dayEvents)
 				calendarItems.append(calendarItem)
 			}
 			
