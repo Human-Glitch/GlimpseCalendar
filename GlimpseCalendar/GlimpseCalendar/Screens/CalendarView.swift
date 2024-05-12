@@ -107,25 +107,6 @@ struct CalendarView: View {
 			
 			Spacer()
 		}
-//		.overlay {
-//			VStack{
-//				Spacer()
-//				Button {
-//					showAddView = true
-//				} label: {
-//					Image(systemName: "plus.circle.fill")
-//						.resizable()
-//						.scaledToFit()
-//						.background(.white)
-//						.clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-//				}
-//				.frame(width: 50, height: 50)
-//			}
-//			
-//		}
-//		.sheet(isPresented: $showAddView, onDismiss: { showAddView = false}) {
-//			AddView()
-//		}
 		.padding([.horizontal, .top], 10)
 	}
 	
@@ -148,38 +129,6 @@ struct CalendarView: View {
 		return calendarWeeks
 	}
 }
-
-//struct AddView: View {
-//	@Environment(\.modelContext) var modelContext
-//	@Environment(\.dismiss) private var dismiss
-//	
-//	@State private var name: String = ""
-//	@State private var location: String = ""
-//	@State private var startDate: Date = Date()
-//	@State private var endDate: Date = Date()
-//	
-//	var body: some View {
-//		Form {
-//			Section(header: Text("Add an Event")) {
-//				TextField("Name", text: $name)
-//				TextField("Location", text: $location)
-//				DatePicker("Start Date", selection: $startDate, displayedComponents: [.date, .hourAndMinute])
-//				DatePicker("End Date", selection: $endDate, displayedComponents: [.date, .hourAndMinute])
-//			}
-//			
-//			Button{
-//				let event = Event(name: $name.wrappedValue, startTime: $startDate.wrappedValue, endTime: $endDate.wrappedValue, location: $location.wrappedValue)
-//				
-//				modelContext.insert(event)
-//				
-//				dismiss()
-//			} label: {
-//				Text("Save Changes")
-//			}
-//			.padding(30)
-//		}
-//	}
-//}
 
 #Preview {
 	CalendarView()

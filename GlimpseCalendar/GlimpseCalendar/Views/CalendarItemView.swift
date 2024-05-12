@@ -15,6 +15,8 @@ struct CalendarItemView: View, Identifiable {
 	let index: Int
 	
 	@State private var selectedEvent: Event?
+	@State private var isPresented = false
+	@State private var eventToEdit: Event?
 	
 	@Query(sort: \Event.startTime)
 	private var events: [Event]
@@ -36,10 +38,17 @@ struct CalendarItemView: View, Identifiable {
 				Spacer(minLength: 30)
 				List(fetchEvents(events: events), id: \.self) { event in
 					EventCellView(event: event)
+						.onTapGesture {
+							eventToEdit = event
+						}
+				}
+				.sheet(item: $eventToEdit) { event in
+					EditEventView(event: event)
 				}
 				.listStyle(.plain)
 				.font(.footnote)
 				.fontWeight(.semibold)
+				
 			}
 			
 			VStack{
@@ -59,11 +68,22 @@ struct CalendarItemView: View, Identifiable {
 						.fontDesign(.monospaced)
 						.fontWeight(.bold)
 						.background(.red.opacity(0.8))
-						.cornerRadius(10)
+						.cornerRadius(5)
 						.foregroundStyle(.white)
-						.padding(.leading, 22)
 					
 					Spacer()
+					
+					Button {
+						isPresented = true
+					} label: {
+						Image(systemName: "plus.circle.fill")
+							.resizable()
+							.scaledToFit()
+							.padding(.trailing, 18)
+					}
+					.sheet(isPresented: $isPresented) {
+						AddEventView(startDate: date, endDate: date)
+					}
 				}
 				.frame(height: 30)
 				
