@@ -69,7 +69,7 @@ struct CalendarRowCarouselView: View, Identifiable {
 				ForEach(calendarItems) { calendarItem in
 					
 					if(calendarItem.weekDay == "Blank") {
-						calendarItem
+						Rectangle()
 							.frame(width: 20, height: 20)
 							.clipShape(RoundedRectangle(cornerRadius: 10))
 							.padding(13)
