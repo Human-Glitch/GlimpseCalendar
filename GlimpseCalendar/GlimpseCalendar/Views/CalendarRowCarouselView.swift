@@ -35,11 +35,11 @@ struct CalendarRowCarouselView: View, Identifiable {
 								.scaleEffect(calendarItem.index == selectedIndex ? 1.2 : 0.5)
 								.offset(x: CGFloat(calendarItem.index - selectedIndex) * 220 + dragOffset, y: 0)
 								.onTapGesture {
-									withAnimation(.interactiveSpring(duration: 0.4)) {
+									//withAnimation(.interactiveSpring(duration: 0.4)) {
 										selectedIndex = calendarItem.index
 										selectedItem = calendarItem
 										selectedRow = row
-									}
+									//}
 								}
 						}
 					}
@@ -48,19 +48,19 @@ struct CalendarRowCarouselView: View, Identifiable {
 					.onEnded({ value in
 						let threshold: CGFloat = 50
 						if value.translation.width > threshold {
-							withAnimation(.interactiveSpring(duration: 0.4))  {
+							//withAnimation(.interactiveSpring(duration: 0.4))  {
 								selectedIndex = max(0, selectedIndex - 1)
 								
 								selectedItem = calendarItems[selectedIndex]
 								selectedRow = row
-							}
+							//}
 						} else if value.translation.width < -threshold {
-							withAnimation(.interactiveSpring(duration: 0.4)) {
+							//withAnimation(.interactiveSpring(duration: 0.4)) {
 								selectedIndex = min(calendarDays.count - 1, selectedIndex + 1)
 								
 								selectedItem = calendarItems[selectedIndex]
 								selectedRow = row
-							}
+							//}
 						}
 					}))
 			}
@@ -80,11 +80,11 @@ struct CalendarRowCarouselView: View, Identifiable {
 						calendarItem
 							.modifier(CustomCalendarRowStyle(row: row, activeRow: activeRow, calendarItem: calendarItem)) // Apply the drag offset to position
 							.onTapGesture {
-								withAnimation(.interactiveSpring(duration: 0.4))  {
+								//withAnimation(.interactiveSpring(duration: 0.4))  {
 									selectedIndex = calendarItem.index
 									selectedItem = calendarItems[selectedIndex]
 									selectedRow = row
-								}
+								//}
 							}
 					}
 				}

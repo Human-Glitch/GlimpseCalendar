@@ -13,8 +13,6 @@ struct CalendarView: View {
 	@State var selectedIndex: Int = 0
 	@State var selectedMonth: Date = Date()
 	
-	@State var showAddView = false
-	
 	private var today = Date()
 	private var calendarYear = MockData.getCalendarYear(for: Date())
 	
@@ -35,7 +33,7 @@ struct CalendarView: View {
 					.font(.title)
 					.fontDesign(.monospaced)
 					.fontWeight(.heavy)
-					.minimumScaleFactor(0.5)
+					.minimumScaleFactor(0.2)
 					.scaledToFit()
 				
 				Spacer()
