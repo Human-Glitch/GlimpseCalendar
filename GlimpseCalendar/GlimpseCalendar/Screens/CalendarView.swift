@@ -6,15 +6,29 @@
 //
 
 import SwiftUI
+import EventKit
+import SwiftData
 
 struct CalendarView: View {
+	@Environment(\.modelContext) var modelContext
+	
+	@Query(sort: \Event.startTime)
+	private var existingEvents: [Event]
+	
+	@ObservedObject var eventKitManager = EventKitManager()
+	
 	@State var selectedRow = -1
 	@State var selectedItem: CalendarItemView?
 	@State var selectedIndex: Int = 0
 	@State var selectedMonth: Date = Date()
+	@State private var synced = false
 	
 	private var today = Date()
 	private var calendarYear = MockData.getCalendarYear(for: Date())
+	
+	init() {
+		eventKitManager.requestAccess(forYear: calendarYear.year)
+	}
 	
 	var body: some View {
 		VStack(alignment: .center, spacing: 5){
@@ -98,6 +112,7 @@ struct CalendarView: View {
 			.frame(width: 400, height: 50)
 			
 			let calendarWeeks = buildCalendarByMonth(calendarYear: calendarYear, selectedMonth: selectedMonth)
+			
 			ForEach(calendarWeeks) { calendarWeek in
 				calendarWeek
 					.padding(5)
@@ -105,7 +120,31 @@ struct CalendarView: View {
 			
 			Spacer()
 		}
+		.onAppear {
+			if(synced) { return }
+			syncCalendarWithEventKit()
+			synced = true
+		}
 		.padding([.horizontal, .top], 10)
+	}
+	
+	func syncCalendarWithEventKit() {
+		let events = eventKitManager.ekEvents.map { self.convertToEvent(ekEvent: $0) }
+		
+		for event in events {
+			if !self.existingEvents.contains(where: {
+				$0.name == event.name &&
+				$0.startTime == event.startTime &&
+				$0.endTime == event.endTime }) {
+				self.modelContext.insert(event)
+			}
+		}
+		
+		do {
+			try self.modelContext.save()
+		} catch {
+			print("Sync failed to save.")
+		}
 	}
 	
 	func buildCalendarByMonth(calendarYear: CalendarYear, selectedMonth: Date) -> [CalendarRowCarouselView] {
@@ -125,6 +164,16 @@ struct CalendarView: View {
 		}
 		
 		return calendarWeeks
+	}
+	
+	func convertToEvent(ekEvent: EKEvent) -> Event {
+		let event = Event(
+			name: ekEvent.title,
+			startTime: ekEvent.startDate,
+			endTime: ekEvent.endDate,
+			location: ekEvent.location ?? "")
+
+		return event
 	}
 }
 

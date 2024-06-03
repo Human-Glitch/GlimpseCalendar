@@ -26,6 +26,7 @@
 		E7B21D602B95A5EC00D4380E /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B21D5F2B95A5EC00D4380E /* MockData.swift */; };
 		E7BFF8772BF07A79006797E8 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BFF8762BF07A79006797E8 /* AddEventView.swift */; };
 		E7BFF8792BF08F80006797E8 /* EditEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7BFF8782BF08F80006797E8 /* EditEventView.swift */; };
+		E7E757912C0C3577000C8B63 /* EventKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E757902C0C3577000C8B63 /* EventKitManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,8 @@
 		E7B21D5F2B95A5EC00D4380E /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		E7BFF8762BF07A79006797E8 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
 		E7BFF8782BF08F80006797E8 /* EditEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEventView.swift; sourceTree = "<group>"; };
+		E7E757902C0C3577000C8B63 /* EventKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventKitManager.swift; sourceTree = "<group>"; };
+		E7E757922C0C39CA000C8B63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +101,8 @@
 		E7B21D392B9447A100D4380E /* GlimpseCalendar */ = {
 			isa = PBXGroup;
 			children = (
+				E7E757922C0C39CA000C8B63 /* Info.plist */,
+				E7E7578F2C0C3512000C8B63 /* Services */,
 				E7350B6F2BE08FDE004CB19E /* Extensions */,
 				E7350B6C2BE08FA8004CB19E /* Models */,
 				E7B21D592B95A4D900D4380E /* Screens */,
@@ -145,6 +150,14 @@
 				E7B21D5F2B95A5EC00D4380E /* MockData.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		E7E7578F2C0C3512000C8B63 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				E7E757902C0C3577000C8B63 /* EventKitManager.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,6 +249,7 @@
 				E7B21D3D2B9447A100D4380E /* CalendarView.swift in Sources */,
 				E7BFF8772BF07A79006797E8 /* AddEventView.swift in Sources */,
 				E7B21D3B2B9447A100D4380E /* GlimpseCalendarApp.swift in Sources */,
+				E7E757912C0C3577000C8B63 /* EventKitManager.swift in Sources */,
 				E7B21D602B95A5EC00D4380E /* MockData.swift in Sources */,
 				E7350B6E2BE08FB6004CB19E /* Event.swift in Sources */,
 				E792CF732B9FE79D00E09621 /* CalendarRowCarouselView.swift in Sources */,
@@ -372,6 +386,9 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GlimpseCalendar/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "We need access to your calendar to display and manage events";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -412,6 +429,9 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GlimpseCalendar/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "We need access to your calendar to display and manage events";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
