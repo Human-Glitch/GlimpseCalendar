@@ -120,7 +120,7 @@ struct CalendarView: View {
 			
 			Spacer()
 		}
-		.onAppear {
+		.onChange(of: eventKitManager.ekEvents) {
 			if(synced) { return }
 			syncCalendarWithEventKit()
 			synced = true

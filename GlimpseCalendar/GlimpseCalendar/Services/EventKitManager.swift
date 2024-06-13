@@ -14,14 +14,15 @@ class EventKitManager: ObservableObject {
 	@Published var ekEvents: [EKEvent] = []
 	
 	func requestAccess(forYear year: Int) {
-		eventStore.requestAccess(to: .event) { (granted, error) in
+		eventStore.requestFullAccessToEvents(completion: { (granted, error) in
 			if granted {
-				self.ekEvents = self.fetchEkEvents(forYear: year)
-				
+				DispatchQueue.main.async {
+					self.ekEvents = self.fetchEkEvents(forYear: year)
+				}
 			} else {
 				print("Access denied or error: \(String(describing: error))")
 			}
-		}
+		})
 	}
 	
 	func fetchEkEvents(forYear year: Int) -> [EKEvent] {
@@ -40,6 +41,8 @@ class EventKitManager: ObservableObject {
 		
 		let predicate = eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: calendars)
 		
-		return eventStore.events(matching: predicate)
+		let events = eventStore.events(matching: predicate)
+		
+		return events
 	}
 }
