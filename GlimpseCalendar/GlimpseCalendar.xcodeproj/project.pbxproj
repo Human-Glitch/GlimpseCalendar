@@ -9,8 +9,10 @@
 /* Begin PBXBuildFile section */
 		E7350B6E2BE08FB6004CB19E /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7350B6D2BE08FB6004CB19E /* Event.swift */; };
 		E7350B722BE08FFF004CB19E /* TypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7350B712BE08FFF004CB19E /* TypeExtensions.swift */; };
+		E7507CEC2C1FFA5F001F448A /* InactiveCalendarRowCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7507CEB2C1FFA5F001F448A /* InactiveCalendarRowCarouselView.swift */; };
+		E7507CEE2C200062001F448A /* CarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7507CED2C20005A001F448A /* CarouselView.swift */; };
 		E760FA0E2BB66E78002A588D /* EventCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E760FA0D2BB66E78002A588D /* EventCellView.swift */; };
-		E792CF732B9FE79D00E09621 /* CalendarRowCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E792CF722B9FE79D00E09621 /* CalendarRowCarouselView.swift */; };
+		E792CF732B9FE79D00E09621 /* ActiveCalendarRowCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E792CF722B9FE79D00E09621 /* ActiveCalendarRowCarouselView.swift */; };
 		E7B21D3B2B9447A100D4380E /* GlimpseCalendarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B21D3A2B9447A100D4380E /* GlimpseCalendarApp.swift */; };
 		E7B21D3D2B9447A100D4380E /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B21D3C2B9447A100D4380E /* CalendarView.swift */; };
 		E7B21D3F2B9447A200D4380E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7B21D3E2B9447A200D4380E /* Assets.xcassets */; };
@@ -32,8 +34,10 @@
 /* Begin PBXFileReference section */
 		E7350B6D2BE08FB6004CB19E /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		E7350B712BE08FFF004CB19E /* TypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeExtensions.swift; sourceTree = "<group>"; };
+		E7507CEB2C1FFA5F001F448A /* InactiveCalendarRowCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InactiveCalendarRowCarouselView.swift; sourceTree = "<group>"; };
+		E7507CED2C20005A001F448A /* CarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselView.swift; sourceTree = "<group>"; };
 		E760FA0D2BB66E78002A588D /* EventCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCellView.swift; sourceTree = "<group>"; };
-		E792CF722B9FE79D00E09621 /* CalendarRowCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarRowCarouselView.swift; sourceTree = "<group>"; };
+		E792CF722B9FE79D00E09621 /* ActiveCalendarRowCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveCalendarRowCarouselView.swift; sourceTree = "<group>"; };
 		E7B21D372B9447A100D4380E /* GlimpseCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GlimpseCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7B21D3A2B9447A100D4380E /* GlimpseCalendarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlimpseCalendarApp.swift; sourceTree = "<group>"; };
 		E7B21D3C2B9447A100D4380E /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
@@ -127,7 +131,9 @@
 		E7B21D582B95A4CD00D4380E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E792CF722B9FE79D00E09621 /* CalendarRowCarouselView.swift */,
+				E7507CED2C20005A001F448A /* CarouselView.swift */,
+				E792CF722B9FE79D00E09621 /* ActiveCalendarRowCarouselView.swift */,
+				E7507CEB2C1FFA5F001F448A /* InactiveCalendarRowCarouselView.swift */,
 				E7B21D5D2B95A5A700D4380E /* CalendarItemView.swift */,
 				E760FA0D2BB66E78002A588D /* EventCellView.swift */,
 				E7BFF8762BF07A79006797E8 /* AddEventView.swift */,
@@ -248,11 +254,13 @@
 				E7BFF8792BF08F80006797E8 /* EditEventView.swift in Sources */,
 				E7B21D3D2B9447A100D4380E /* CalendarView.swift in Sources */,
 				E7BFF8772BF07A79006797E8 /* AddEventView.swift in Sources */,
+				E7507CEE2C200062001F448A /* CarouselView.swift in Sources */,
 				E7B21D3B2B9447A100D4380E /* GlimpseCalendarApp.swift in Sources */,
 				E7E757912C0C3577000C8B63 /* EventKitManager.swift in Sources */,
 				E7B21D602B95A5EC00D4380E /* MockData.swift in Sources */,
 				E7350B6E2BE08FB6004CB19E /* Event.swift in Sources */,
-				E792CF732B9FE79D00E09621 /* CalendarRowCarouselView.swift in Sources */,
+				E792CF732B9FE79D00E09621 /* ActiveCalendarRowCarouselView.swift in Sources */,
+				E7507CEC2C1FFA5F001F448A /* InactiveCalendarRowCarouselView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

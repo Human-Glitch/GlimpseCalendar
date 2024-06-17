@@ -114,7 +114,7 @@ struct CalendarView: View {
 			let calendarWeeks = buildCalendarByMonth(calendarYear: calendarYear, selectedMonth: selectedMonth)
 			
 			ForEach(calendarWeeks) { calendarWeek in
-				calendarWeek
+				calendarWeek.view
 					.padding(5)
 			}
 			
@@ -147,20 +147,34 @@ struct CalendarView: View {
 		}
 	}
 	
-	func buildCalendarByMonth(calendarYear: CalendarYear, selectedMonth: Date) -> [CalendarRowCarouselView] {
+	func buildCalendarByMonth(calendarYear: CalendarYear, selectedMonth: Date) -> [CarouselView] {
 		let calendar = Calendar.current
 		let month = calendar.component(.month, from: selectedMonth)
 		
-		var calendarWeeks: [CalendarRowCarouselView] = []
+		var calendarWeeks: [CarouselView] = []
 		for calendarWeek in calendarYear.calendarMonths[month - 1].calendarWeeks {
 			
-			calendarWeeks.append(CalendarRowCarouselView(
-				selectedItem: $selectedItem,
-				selectedRow: $selectedRow,
-				selectedIndex: $selectedIndex,
-				calendarDays: calendarWeek.calendarDays,
-				row: calendarWeek.weekNumber,
-				activeRow: selectedRow == calendarWeek.weekNumber))
+			if(calendarWeek.weekNumber == selectedRow) {
+				let temp = CarouselView(view: AnyView(
+					ActiveCalendarRowCarouselView(
+						selectedItem: $selectedItem,
+						selectedRow: $selectedRow,
+						selectedIndex: $selectedIndex,
+						calendarDays: calendarWeek.calendarDays,
+						row: calendarWeek.weekNumber)))
+				
+				calendarWeeks.append(temp)
+				
+			} else {
+				let temp = CarouselView(view: AnyView(
+					InactiveCalendarRowCarouselView(
+						selectedRow: $selectedRow,
+						selectedIndex: $selectedIndex,
+						calendarDays: .constant(calendarWeek.calendarDays),
+						row: calendarWeek.weekNumber)))
+				
+				calendarWeeks.append(temp)
+			}
 		}
 		
 		return calendarWeeks

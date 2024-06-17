@@ -184,7 +184,7 @@ struct CalendarWeek: Hashable{
 	var calendarDays: [CalendarDay] = []
 }
 
-struct CalendarDay: Hashable {
+struct CalendarDay: Identifiable, Hashable {
 	init(weekDay: String, date: Date, index: Int = 0, events: [Event]? = nil) {
 		self.weekDay = weekDay
 		self.date = date
@@ -192,7 +192,8 @@ struct CalendarDay: Hashable {
 		self.events = events
 	}
 	
-	let weekDay: String
+	let id = UUID()
+	var weekDay: String
 	let date: Date
 	var index: Int
 	var events: [Event]?
