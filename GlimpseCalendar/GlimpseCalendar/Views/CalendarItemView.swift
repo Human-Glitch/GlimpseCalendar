@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct CalendarItemView: View, Identifiable {
-	let id = UUID()
+	var id: Int { index }
 	let weekDay: String
 	let date: Date
 	let index: Int

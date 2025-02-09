@@ -33,31 +33,27 @@ struct ActiveCalendarRowCarouselView: View, Identifiable {
 							.scaleEffect(calendarItem.index == selectedIndex ? 1.2 : 0.5)
 							.offset(x: CGFloat(calendarItem.index - selectedIndex) * 220 + dragOffset, y: 0)
 							.onTapGesture {
-								withAnimation(.interactiveSpring(duration: 0.4)) {
+								withAnimation(.easeInOut(duration: 0.2)) {
 									selectedIndex = calendarItem.index
 									selectedItem = calendarItem
 									selectedRow = row
 								}
 							}
-							.gesture(DragGesture()
-								.onEnded({ value in
-									let threshold: CGFloat = 50
-									if value.translation.width > threshold {
-										withAnimation(.interactiveSpring(duration: 0.4))  {
-											selectedIndex = max(0, selectedIndex - 1)
-											
-											selectedItem = calendarItems[selectedIndex]
-											selectedRow = row
-										}
-									} else if value.translation.width < -threshold {
-										withAnimation(.interactiveSpring(duration: 0.4)) {
-											selectedIndex = min(calendarDays.count - 1, selectedIndex + 1)
-											
+							.gesture(
+								DragGesture()
+									.onEnded { value in
+										let threshold: CGFloat = 50
+										withAnimation(.easeInOut(duration: 0.2)) {
+											if value.translation.width > threshold {
+												selectedIndex = max(0, selectedIndex - 1)
+											} else if value.translation.width < -threshold {
+												selectedIndex = min(calendarDays.count - 1, selectedIndex + 1)
+											}
 											selectedItem = calendarItems[selectedIndex]
 											selectedRow = row
 										}
 									}
-								}))
+							)
 					}
 				}
 			}
