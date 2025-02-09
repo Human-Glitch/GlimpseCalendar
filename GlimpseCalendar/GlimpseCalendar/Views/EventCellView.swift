@@ -9,42 +9,30 @@ import SwiftUI
 
 struct EventCellView: View {
 	var event: Event
-	
+
     var body: some View {
-		VStack{
-			HStack{
-				VStack{
-					Text(event.startTime.formattedTime())
-					Text(event.endTime.formattedTime())
-				}
-				.frame(width: 55, alignment: .trailing)
-				.padding(5)
-				.font(.caption2)
-				.foregroundColor(.white)
-				.background(.gray)
-				.cornerRadius(10)
-				
-				VStack{
-					HStack{
-						Label(event.name, systemImage: "calendar")
-							.lineLimit(1)
-							.padding(.trailing)
-							.scaledToFit()
-							.minimumScaleFactor(0.8)
-						
-						Spacer()
-					}
-					
-					HStack{
-						Label("Home", systemImage: "mappin.and.ellipse")
-							.bold()
-						
-						Spacer()
-					}
-				}
+		// Removed the outer VStack and nested HStacks
+		HStack {
+			VStack(alignment: .trailing, spacing: 2) {
+				Text(event.startTime.formattedTime())
+				Text(event.endTime.formattedTime())
 			}
-			.font(.caption)
+			.frame(width: 55)
+			.padding(5)
+			.font(.caption2)
+			.foregroundColor(.white)
+			.background(Color.gray)
+			.cornerRadius(10)
+			
+			VStack(alignment: .leading, spacing: 4) {
+				Label(event.name, systemImage: "calendar")
+					.lineLimit(1)
+					.minimumScaleFactor(0.8)
+				Label("Home", systemImage: "mappin.and.ellipse")
+					.bold()
+			}
 		}
+		.font(.caption)
     }
 }
 

@@ -23,9 +23,8 @@ struct EditEventView: View {
 				dismiss()
 			} label: {
 				Image(systemName: "trash")
-					.resizable()
-					.scaledToFit()
 					.foregroundColor(.red)
+					.frame(width: 25, height: 25)
 			}
 			.frame(width: 25, height: 25)
 			.padding()
