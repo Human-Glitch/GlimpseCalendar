@@ -33,7 +33,7 @@ class EventKitManager: ObservableObject {
 		if let cached = eventsCache[year] {
 			return cached
 		}
-		return await withCheckedContinuation { continuation in
+		return await withUnsafeContinuation { continuation in
 			let calendars = eventStore.calendars(for: .event)
 			var dateComponents = DateComponents()
 			dateComponents.year = year
