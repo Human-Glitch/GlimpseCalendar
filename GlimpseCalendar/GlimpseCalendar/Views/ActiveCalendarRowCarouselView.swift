@@ -7,8 +7,7 @@
 
 import SwiftUI
 
-struct ActiveCalendarRowCarouselView: View, Identifiable {
-	let id = UUID()
+struct ActiveCalendarRowCarouselView: View {
 	@Binding var selectedItem: CalendarItemView?
 	@Binding var selectedRow: Int
 	@Binding var selectedIndex: Int
@@ -17,10 +16,14 @@ struct ActiveCalendarRowCarouselView: View, Identifiable {
 	let calendarDays: [CalendarDay]
 	let row: Int
 	
+	// Compute calendarItems once per render cycle.
+	private var calendarItems: [CalendarItemView] {
+		calendarDays.enumerated().map { (index, day) in
+			CalendarItemView(weekDay: day.weekDay, date: day.date, index: index)
+		}
+	}
+	
 	var body: some View {
-		
-		let calendarItems: [CalendarItemView] = buildCalendarItems(calendarDays: calendarDays)
-		
 		VStack {
 			ZStack {
 				ForEach(calendarItems) { calendarItem in
@@ -58,19 +61,6 @@ struct ActiveCalendarRowCarouselView: View, Identifiable {
 				}
 			}
 		}
-	}
-	
-	func buildCalendarItems(calendarDays: [CalendarDay]) -> [CalendarItemView] {
-		var calendarItems: [CalendarItemView] = []
-		for calendarDay in calendarDays {
-			let index = calendarDays.firstIndex(of: calendarDay)!
-			
-			let calendarItem = CalendarItemView(weekDay: calendarDay.weekDay, date: calendarDay.date, index: index)
-												
-			calendarItems.append(calendarItem)
-		}
-		
-		return calendarItems
 	}
 }
 

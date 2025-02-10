@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct CalendarItemView: View, Identifiable {
+struct CalendarItemView: View, Identifiable, Equatable {
 	var id: Int { index }
 	let weekDay: String
 	let date: Date
@@ -22,11 +22,18 @@ struct CalendarItemView: View, Identifiable {
 	private var events: [Event]
 	
 	var dayNumber: String {
+		return CalendarItemView.dateFormatter.string(from: date)
+	}
+	
+	private static let dateFormatter: DateFormatter = {
 		let formatter = DateFormatter()
 		formatter.dateFormat = "d"
-
-		return formatter.string(from: date)
-	}
+		return formatter
+	}()
+	
+	static func ==(lhs: CalendarItemView, rhs: CalendarItemView) -> Bool {
+        return lhs.weekDay == rhs.weekDay && lhs.date == rhs.date && lhs.index == rhs.index
+    }
 	
 	var body: some View {
 		ZStack {

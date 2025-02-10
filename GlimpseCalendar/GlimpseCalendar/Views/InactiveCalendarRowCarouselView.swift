@@ -7,11 +7,9 @@
 
 import SwiftUI
 
-struct InactiveCalendarRowCarouselView: View, Identifiable {
-	let id = UUID()
+struct InactiveCalendarRowCarouselView: View {
 	@Binding var selectedRow: Int
 	@Binding var selectedIndex: Int
-	
 	@Binding var  calendarDays: [CalendarDay]
 	let row: Int
 	
@@ -29,8 +27,8 @@ struct InactiveCalendarRowCarouselView: View, Identifiable {
 						.background(.clear)
 					
 				} else {
-					AnyView(Rectangle())
-						.modifier(InactiveCustomCalendarRowStyle(calendarDay: calendarDay.wrappedValue)) 
+					Rectangle()
+						.modifier(InactiveCustomCalendarRowStyle(calendarDay: calendarDay.wrappedValue))
 						.onTapGesture {
 							selectedIndex = calendarDay.index.wrappedValue
 							selectedRow = row
