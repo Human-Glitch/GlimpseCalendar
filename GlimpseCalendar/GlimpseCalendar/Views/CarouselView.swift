@@ -8,8 +8,5 @@
 import Foundation
 import SwiftUICore
 
-struct CarouselView: Identifiable {
-	let id = UUID()
-	let view: AnyView
-}
+// CarouselView abstraction removed.
 

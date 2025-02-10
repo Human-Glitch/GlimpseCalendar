@@ -111,11 +111,10 @@ struct CalendarView: View {
 			}
 			.frame(width: 400, height: 50)
 			
-			let calendarWeeks = buildCalendarByMonth(calendarYear: calendarYear, selectedMonth: selectedMonth)
+			let calendarViews = buildCalendarByMonth(calendarYear: calendarYear, selectedMonth: selectedMonth)
 			
-			ForEach(calendarWeeks) { calendarWeek in
-				calendarWeek.view
-					.padding(5)
+			ForEach(calendarViews.indices, id: \.self) { index in
+				calendarViews[index].padding(5)
 			}
 			
 			Spacer()
@@ -147,37 +146,36 @@ struct CalendarView: View {
 		}
 	}
 	
-	func buildCalendarByMonth(calendarYear: CalendarYear, selectedMonth: Date) -> [CarouselView] {
+	func buildCalendarByMonth(calendarYear: CalendarYear, selectedMonth: Date) -> [AnyView] {
 		let calendar = Calendar.current
 		let month = calendar.component(.month, from: selectedMonth)
 		
-		var calendarWeeks: [CarouselView] = []
+		var views: [AnyView] = []
 		for calendarWeek in calendarYear.calendarMonths[month - 1].calendarWeeks {
 			
-			if(calendarWeek.weekNumber == selectedRow) {
-				let temp = CarouselView(view: AnyView(
+			if calendarWeek.weekNumber == selectedRow {
+				let view = AnyView(
 					ActiveCalendarRowCarouselView(
 						selectedItem: $selectedItem,
 						selectedRow: $selectedRow,
 						selectedIndex: $selectedIndex,
 						calendarDays: calendarWeek.calendarDays,
-						row: calendarWeek.weekNumber)))
-				
-				calendarWeeks.append(temp)
-				
+						row: calendarWeek.weekNumber)
+				)
+				views.append(view)
 			} else {
-				let temp = CarouselView(view: AnyView(
+				let view = AnyView(
 					InactiveCalendarRowCarouselView(
 						selectedRow: $selectedRow,
 						selectedIndex: $selectedIndex,
 						calendarDays: .constant(calendarWeek.calendarDays),
-						row: calendarWeek.weekNumber)))
-				
-				calendarWeeks.append(temp)
+						row: calendarWeek.weekNumber)
+				)
+				views.append(view)
 			}
 		}
 		
-		return calendarWeeks
+		return views
 	}
 	
 	func convertToEvent(ekEvent: EKEvent) -> Event {
