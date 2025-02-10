@@ -113,9 +113,15 @@ struct CalendarView: View {
 			
 			let calendarViews = buildCalendarByMonth(calendarYear: calendarYear, selectedMonth: selectedMonth)
 			
-			ForEach(calendarViews.indices, id: \.self) { index in
-				calendarViews[index].padding(5)
+			// Wrap rows in an animated container with a modified transition.
+			VStack {
+				ForEach(calendarViews.indices, id: \.self) { index in
+					calendarViews[index]
+						.padding(5)
+						.transition(.asymmetric(insertion: .scale, removal: .opacity))
+				}
 			}
+			.animation(.bouncy, value: selectedRow)
 			
 			Spacer()
 		}
