@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ActiveCalendarRowCarouselView: View {
-	@Binding var selectedItem: CalendarItemView?
+	@Binding var selectedItemID: Int?    // Updated binding
 	@Binding var selectedRow: Int
 	@Binding var selectedIndex: Int
 	@GestureState private var dragOffset: CGFloat = 0
@@ -38,7 +38,7 @@ struct ActiveCalendarRowCarouselView: View {
 							.onTapGesture {
 								withAnimation(.easeInOut(duration: 0.2)) {
 									selectedIndex = calendarItem.index
-									selectedItem = calendarItem
+									selectedItemID = calendarItem.index
 									selectedRow = row
 								}
 							}
@@ -52,7 +52,7 @@ struct ActiveCalendarRowCarouselView: View {
 											} else if value.translation.width < -threshold {
 												selectedIndex = min(calendarDays.count - 1, selectedIndex + 1)
 											}
-											selectedItem = calendarItems[selectedIndex]
+											selectedItemID = calendarItems[selectedIndex].index
 											selectedRow = row
 										}
 									}

@@ -17,9 +17,11 @@ class EventKitManager: ObservableObject {
 	private var eventsCache: [Int: [EKEvent]] = [:]
 	
 	func requestAccess(forYear year: Int) {
-		eventStore.requestFullAccessToEvents { (granted, error) in
+		eventStore.requestFullAccessToEvents { [weak self] (granted, error) in
+			guard let self = self else { return }
 			if granted {
-				Task {
+				Task { [weak self] in
+					guard let self = self else { return }
 					let events = await self.fetchEkEventsAsync(forYear: year)
 					await MainActor.run { self.ekEvents = events }
 				}

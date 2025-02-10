@@ -18,7 +18,7 @@ struct CalendarView: View {
 	@ObservedObject var eventKitManager = EventKitManager()
 	
 	@State var selectedRow = -1
-	@State var selectedItem: CalendarItemView?
+	@State var selectedItemID: Int? = nil  
 	@State var selectedIndex: Int = 0
 	@State var selectedMonth: Date = Date()
 	@State private var synced = false
@@ -38,7 +38,7 @@ struct CalendarView: View {
 				.frame(alignment: .top)
 				.onTapGesture {
 					selectedRow = -1
-					selectedItem = nil
+					selectedItemID = nil
 				}
 				.padding(.bottom, 0)
 			
@@ -54,11 +54,7 @@ struct CalendarView: View {
 				
 				Button {
 					selectedMonth = today
-					
-					selectedRow = -1
-					selectedItem = nil
-					selectedIndex = 0
-					
+					clearState()
 				} label: {
 					Image(systemName: "clock.circle.fill")
 						.resizable()
@@ -69,12 +65,8 @@ struct CalendarView: View {
 				
 				Button {
 					let previousMonth = Calendar.current.date(byAdding: .month, value: -1, to: selectedMonth)!
-					
 					selectedMonth = previousMonth
-					
-					selectedRow = -1
-					selectedItem = nil
-					selectedIndex = 0
+					clearState()
 				} label: {
 					Image(systemName: "chevron.up")
 						.resizable()
@@ -85,13 +77,8 @@ struct CalendarView: View {
 				
 				Button {
 					let nextMonth = Calendar.current.date(byAdding: .month, value: 1, to: selectedMonth)!
-					
 					selectedMonth = nextMonth
-					
-					selectedRow = -1
-					selectedItem = nil
-					selectedIndex = 0
-					
+					clearState()
 				} label: {
 					Image(systemName: "chevron.down")
 						.resizable()
@@ -124,12 +111,19 @@ struct CalendarView: View {
 			
 			Spacer()
 		}
-		.onChange(of: eventKitManager.ekEvents) {
-			if(synced) { return }
-			syncCalendarWithEventKit()
-			synced = true
+		.onChange(of: eventKitManager.ekEvents) { oldEvents, newEvents in
+			if !self.synced {
+				self.syncCalendarWithEventKit()
+				self.synced = true
+			}
 		}
 		.padding([.horizontal, .top], 10)
+	}
+	
+	private func clearState() {
+		selectedRow = -1
+		selectedItemID = nil
+		selectedIndex = 0
 	}
 	
 	func syncCalendarWithEventKit() {
@@ -161,7 +155,7 @@ struct CalendarView: View {
 			if calendarWeek.weekNumber == selectedRow {
 				let view = AnyView(
 					ActiveCalendarRowCarouselView(
-						selectedItem: $selectedItem,
+						selectedItemID: $selectedItemID,
 						selectedRow: $selectedRow,
 						selectedIndex: $selectedIndex,
 						calendarDays: calendarWeek.calendarDays,
