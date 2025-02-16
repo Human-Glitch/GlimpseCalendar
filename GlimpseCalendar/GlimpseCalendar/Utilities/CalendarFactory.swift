@@ -23,6 +23,12 @@ struct CalendarFactory {
 		return formatter
 	}()
 	
+	private static let calendar: Calendar = {
+		var calendar = Calendar.current
+		calendar.firstWeekday = 1 // Sunday
+		return calendar
+	}()
+	
 	static var daysOfWeek: [String] {
 		let calendar = Calendar.current
 		let dateFormatter = weekdayFormatter
@@ -64,71 +70,59 @@ struct CalendarFactory {
 	]
 	
 	static func getCalendarYear(for thisYear: Date) -> CalendarYear {
-		let calendar = Calendar.current
-		
 		let year = calendar.component(.year, from: thisYear)
-		var calendarYear: CalendarYear = CalendarYear(year: year)
-		
-		var calendarMonths: [CalendarMonth] = []
-		
+		var calendarYear = CalendarYear(year: year)
 		var weekNumberCount = 1
-		for month in 1...12 {
+		
+		let months = (1...12).map { month -> CalendarMonth in
 			
-			let monthDate = DateComponents(calendar: calendar, year: year, month: month, day: 1).date!
+			let monthDate = calendar.date(from: DateComponents(year: year, month: month, day: 1))!
 			let monthName = monthFormatter.string(from: monthDate)
-			
 			let daysInMonth = getDaysInMonth(for: monthDate)
 			
-			var calendarDays: [CalendarDay] = []
-			for day in daysInMonth {
-				let weekDay = getDayOfWeek(for: day)
-				calendarDays.append(CalendarDay(weekDay: weekDay, date: day))
+			let calendarDays = daysInMonth.map { date -> CalendarDay in
+				CalendarDay(weekDay: getDayOfWeek(for: date), date: date)
 			}
 			
-			var calendarWeeks: [CalendarWeek] = []
+			let calendarWeeks = createWeeks(from: calendarDays, startingWeekNumber: &weekNumberCount)
 			
-			var calendarWeek = CalendarWeek(weekNumber: weekNumberCount)
-			for day in calendarDays {
-				if (day.weekDay != "SAT") {
-					calendarWeek.calendarDays.append(day)
-				} else { // add sat and start a new week
-					calendarWeek.calendarDays.append(day)
-					
-					calendarWeeks.append(calendarWeek)
-					weekNumberCount = weekNumberCount + 1
-					
-					calendarWeek = CalendarWeek(weekNumber: weekNumberCount)
-				}
-			}
-			
-			while(calendarWeeks[0].calendarDays.count < 7) {
-				let blankDay = CalendarDay(weekDay: "Blank", date: Date())
-				calendarWeeks[0].calendarDays.insert(blankDay, at: 0)
-			}
-			
-			var weekCount = 0
-			for calendarWeek in calendarWeeks {
-				
-				var dayCount = 0
-				for _ in calendarWeek.calendarDays {
-					calendarWeeks[weekCount].calendarDays[dayCount].index = dayCount
-					dayCount += 1
-				}
-				
-				weekCount += 1
-			}
-			
-			if(calendarWeek.calendarDays.count > 0) {
-				calendarWeeks.append(calendarWeek)
-			}
-			
-			let calendarMonth = CalendarMonth(month: monthName, calendarWeeks: calendarWeeks)
-			calendarMonths.append(calendarMonth)
+			return CalendarMonth(month: monthName, calendarWeeks: calendarWeeks)
 		}
 		
-		calendarYear.calendarMonths = calendarMonths
-	  
+		calendarYear.calendarMonths = months
 		return calendarYear
+	}
+	
+	private static func createWeeks(from days: [CalendarDay], startingWeekNumber: inout Int) -> [CalendarWeek] {
+		var weeks: [CalendarWeek] = []
+		var currentWeek = CalendarWeek(weekNumber: startingWeekNumber)
+		var currentDays: [CalendarDay] = []
+		
+		// Add blank days at start if needed
+		let firstWeekday = calendar.component(.weekday, from: days[0].date)
+		if firstWeekday > 1 {
+			for _ in 1..<firstWeekday {
+				currentDays.append(CalendarDay(weekDay: "Blank", date: days[0].date))
+			}
+		}
+		
+		// Add all days with proper indexing
+		for (index, day) in days.enumerated() {
+			var indexedDay = day
+			indexedDay.index = currentDays.count
+			currentDays.append(indexedDay)
+			
+			if calendar.component(.weekday, from: day.date) == 7 || index == days.count - 1 {
+				currentWeek.calendarDays = currentDays
+				weeks.append(currentWeek)
+				
+				startingWeekNumber += 1
+				currentWeek = CalendarWeek(weekNumber: startingWeekNumber)
+				currentDays = []
+			}
+		}
+		
+		return weeks
 	}
 	
 	static func getDaysInMonth(for date: Date) -> [Date] {
