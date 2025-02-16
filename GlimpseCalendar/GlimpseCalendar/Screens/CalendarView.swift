@@ -24,7 +24,7 @@ struct CalendarView: View {
 	@State private var synced = false
 	
 	private var today = Date()
-	private var calendarYear = MockData.getCalendarYear(for: Date())
+	private var calendarYear = CalendarFactory.getCalendarYear(for: Date())
 	
 	init() {
 		eventKitManager.requestAccess(forYear: calendarYear.year)
@@ -43,7 +43,7 @@ struct CalendarView: View {
 				.padding(.bottom, 0)
 			
 			HStack(alignment: .bottom) {
-				Text(MockData.getMonthAndYear(for: selectedMonth))
+				Text(CalendarFactory.getMonthAndYear(for: selectedMonth))
 					.font(.title)
 					.fontDesign(.monospaced)
 					.fontWeight(.heavy)
@@ -89,7 +89,7 @@ struct CalendarView: View {
 			}
 			
 			HStack(alignment: .center, spacing: 5){
-				ForEach(MockData.daysOfWeek, id: \.self) { day in
+				ForEach(CalendarFactory.daysOfWeek, id: \.self) { day in
 					Text(day)
 						.frame(width: 50, height: 35, alignment: .center)
 						.font(.title3)

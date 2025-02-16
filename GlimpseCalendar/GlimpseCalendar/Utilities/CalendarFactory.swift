@@ -1,5 +1,5 @@
 //
-//  MockData.swift
+//  CalendarFactory.swift
 //  GlimpseCalendar
 //
 //  Created by Kody Buss on 3/4/24.
@@ -8,32 +8,31 @@
 import SwiftUI
 import Foundation
 
-struct MockData {
+struct CalendarFactory {
+	private static let weekdayFormatter: DateFormatter = {
+		let formatter = DateFormatter()
+		formatter.dateFormat = "EEE"
+		formatter.locale = Locale(identifier: "en_US")
+		return formatter
+	}()
 	
-	static let daysOfWeek: [String] = [
-		"SUN",
-		"MON",
-		"TUE",
-		"WED",
-		"THU",
-		"FRI",
-		"SAT"
-	]
+	private static let monthFormatter: DateFormatter = {
+		let formatter = DateFormatter()
+		formatter.dateFormat = "MMMM"
+		formatter.locale = Locale(identifier: "en_US")
+		return formatter
+	}()
 	
-	static let monthsOfYear: [String] = [
-		"January",
-		"February",
-		"March",
-		"April",
-		"May",
-		"June",
-		"July",
-		"August",
-		"September",
-		"October",
-		"November",
-		"December"
-	]
+	static var daysOfWeek: [String] {
+		let calendar = Calendar.current
+		let dateFormatter = weekdayFormatter
+		
+		// Start with Sunday (1) and get all 7 days
+		return (1...7).map { weekday -> String in
+			let date = calendar.date(from: DateComponents(weekday: weekday))!
+			return dateFormatter.string(from: date).uppercased()
+		}
+	}
 	
 	static let events: [Event] = [
 		Event(
@@ -74,8 +73,9 @@ struct MockData {
 		
 		var weekNumberCount = 1
 		for month in 1...12 {
-			let monthName: String = monthsOfYear[month - 1]
+			
 			let monthDate = DateComponents(calendar: calendar, year: year, month: month, day: 1).date!
+			let monthName = monthFormatter.string(from: monthDate)
 			
 			let daysInMonth = getDaysInMonth(for: monthDate)
 			
@@ -93,12 +93,6 @@ struct MockData {
 					calendarWeek.calendarDays.append(day)
 				} else { // add sat and start a new week
 					calendarWeek.calendarDays.append(day)
-					
-					// Workaround for bug in apple calendar
-					// for November months duping days
-					if(calendarWeek.calendarDays.count > 7) {
-						calendarWeek.calendarDays.remove(at: 0)
-					}
 					
 					calendarWeeks.append(calendarWeek)
 					weekNumberCount = weekNumberCount + 1
@@ -139,13 +133,16 @@ struct MockData {
 	
 	static func getDaysInMonth(for date: Date) -> [Date] {
 		let calendar = Calendar.current
+		let year = calendar.component(.year, from: date)
+		let month = calendar.component(.month, from: date)
 		let range = calendar.range(of: .day, in: .month, for: date)!
 		
 		var daysInMonth: [Date] = []
 		for day in 1...range.count {
-			daysInMonth.append(
-				calendar.date(bySettingHour: 0, minute: 0, second: 0, of: date)!
-					.addingTimeInterval(TimeInterval(24 * 60 * 60 * (day - 1))))
+			let components = DateComponents(year: year, month: month, day: day)
+			if let date = calendar.date(from: components) {
+				daysInMonth.append(date)
+			}
 		}
 		
 		return daysInMonth
@@ -153,18 +150,13 @@ struct MockData {
 	
 	static func getMonthAndYear(for date: Date) -> String {
 		let calendar = Calendar.current
-		let month = calendar.component(.month, from: date)
 		let year = calendar.component(.year, from: date)
-		
-		return "\(year)\n\(monthsOfYear[month - 1])"
+		return "\(year)\n\(monthFormatter.string(from: date))"
 		
 	}
 	
 	static func getDayOfWeek(for date: Date) -> String {
-		let calendar = Calendar.current
-		let weekday = calendar.component(.weekday, from: date)
-		
-		return daysOfWeek[weekday - 1]
+		return weekdayFormatter.string(from: date).uppercased()
 	}
 	
 }
