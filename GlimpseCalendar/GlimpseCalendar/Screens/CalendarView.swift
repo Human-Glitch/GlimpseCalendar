@@ -23,101 +23,122 @@ struct CalendarView: View {
 	@State var selectedIndex: Int = 0
 	@State var selectedMonth: Date = Date()
 	@State private var synced = false
+	@State private var showSettings = false
 	
 	private var today = Date()
 	private var calendarYear = CalendarFactory.getCalendarYear(for: Date())
 	
 	var body: some View {
-		VStack(alignment: .center, spacing: 5){
-			
-			Text("👁️‍🗨️ Glimpse")
-				.font(.system(size: 36, weight: .semibold, design: .monospaced))
-				.frame(alignment: .top)
-				.onTapGesture {
-					selectedRow = -1
-					selectedItemID = nil
+		NavigationStack {
+			VStack(alignment: .center, spacing: 5){
+				
+				HStack {
+					Spacer()
+					
+					Text("👁️‍🗨️ Glimpse")
+						.font(.system(size: 36, weight: .semibold, design: .monospaced))
+						.frame(alignment: .top)
+						.onTapGesture {
+							selectedRow = -1
+							selectedItemID = nil
+						}
+					
+					Spacer()
+					
+					Button {
+						showSettings = true
+					} label: {
+						Image(systemName: "gear")
+							.resizable()
+							.scaledToFit()
+							.frame(width: 24, height: 24)
+					}
 				}
 				.padding(.bottom, 0)
-			
-			HStack(alignment: .bottom) {
-				Text(CalendarFactory.getMonthAndYear(for: selectedMonth))
-					.font(.title)
-					.fontDesign(.monospaced)
-					.fontWeight(.heavy)
-					.minimumScaleFactor(0.2)
-					.scaledToFit()
+				
+				HStack(alignment: .bottom) {
+					Text(CalendarFactory.getMonthAndYear(for: selectedMonth))
+						.font(.title)
+						.fontDesign(.monospaced)
+						.fontWeight(.heavy)
+						.minimumScaleFactor(0.2)
+						.scaledToFit()
+					
+					Spacer()
+					
+					Button {
+						selectedMonth = today
+						clearState()
+					} label: {
+						Image(systemName: "clock.circle.fill")
+							.resizable()
+							.scaledToFit()
+							.frame(width: 30, height: 30)
+							.padding(5)
+					}
+					
+					Button {
+						let previousMonth = Calendar.current.date(byAdding: .month, value: -1, to: selectedMonth)!
+						selectedMonth = previousMonth
+						clearState()
+					} label: {
+						Image(systemName: "chevron.up")
+							.resizable()
+							.scaledToFit()
+							.frame(width: 30, height: 30)
+							.padding(5)
+					}
+					
+					Button {
+						let nextMonth = Calendar.current.date(byAdding: .month, value: 1, to: selectedMonth)!
+						selectedMonth = nextMonth
+						clearState()
+					} label: {
+						Image(systemName: "chevron.down")
+							.resizable()
+							.scaledToFit()
+							.frame(width: 30, height: 30)
+							.padding(5)
+					}
+				}
+				
+				HStack(alignment: .center, spacing: 5){
+					ForEach(CalendarFactory.daysOfWeek, id: \.self) { day in
+						Text(day)
+							.frame(width: 50, height: 35, alignment: .center)
+							.font(.title3)
+							.fontWeight(.semibold)
+					}
+				}
+				.frame(width: 400, height: 50)
+				
+				let calendarViews = buildCalendarByMonth(calendarYear: calendarYear, selectedMonth: selectedMonth)
+				
+				LazyVStack {
+					ForEach(calendarViews.indices, id: \.self) { index in
+						calendarViews[index]
+							.padding(5)
+							.transition(.asymmetric(insertion: .scale, removal: .opacity))
+					}
+				}
+				.animation(.bouncy, value: selectedRow)
 				
 				Spacer()
-				
-				Button {
-					selectedMonth = today
-					clearState()
-				} label: {
-					Image(systemName: "clock.circle.fill")
-						.resizable()
-						.scaledToFit()
-						.frame(width: 30, height: 30)
-						.padding(5)
-				}
-				
-				Button {
-					let previousMonth = Calendar.current.date(byAdding: .month, value: -1, to: selectedMonth)!
-					selectedMonth = previousMonth
-					clearState()
-				} label: {
-					Image(systemName: "chevron.up")
-						.resizable()
-						.scaledToFit()
-						.frame(width: 30, height: 30)
-						.padding(5)
-				}
-				
-				Button {
-					let nextMonth = Calendar.current.date(byAdding: .month, value: 1, to: selectedMonth)!
-					selectedMonth = nextMonth
-					clearState()
-				} label: {
-					Image(systemName: "chevron.down")
-						.resizable()
-						.scaledToFit()
-						.frame(width: 30, height: 30)
-						.padding(5)
-				}
 			}
-			
-			HStack(alignment: .center, spacing: 5){
-				ForEach(CalendarFactory.daysOfWeek, id: \.self) { day in
-					Text(day)
-						.frame(width: 50, height: 35, alignment: .center)
-						.font(.title3)
-						.fontWeight(.semibold)
-				}
+			.navigationDestination(isPresented: $showSettings) {
+				SettingsView()
 			}
-			.frame(width: 400, height: 50)
-			
-			let calendarViews = buildCalendarByMonth(calendarYear: calendarYear, selectedMonth: selectedMonth)
-			
-			LazyVStack {
-				ForEach(calendarViews.indices, id: \.self) { index in
-					calendarViews[index]
-						.padding(5)
-						.transition(.asymmetric(insertion: .scale, removal: .opacity))
-				}
-			}
-			.animation(.bouncy, value: selectedRow)
-			
-			Spacer()
-		}
 			.onAppear {
 				eventKitManager.requestAccess(forYear: calendarYear.year)
 			}
-		.onChange(of: eventKitManager.ekEvents) { oldEvents, newEvents in
-			if !self.synced {
-				self.syncCalendarWithEventKit()
-				self.synced = true
+			.onChange(of: eventKitManager.ekEvents) { oldEvents, newEvents in
+				if !self.synced {
+					self.syncCalendarWithEventKit()
+					self.synced = true
+				}
 			}
+			.padding([.horizontal, .top], 10)
 		}
-		.padding([.horizontal, .top], 10)
 	}
 	
 	private func clearState() {

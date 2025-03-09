@@ -24,7 +24,7 @@ struct GlimpseCalendarApp: App {
         WindowGroup {
 			CalendarView()
 				.environmentObject(eventKitManager)
+				.modelContainer(container)
         }
-		.modelContainer(container)
     }
 }
