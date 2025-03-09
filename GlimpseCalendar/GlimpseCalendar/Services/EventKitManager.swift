@@ -13,8 +13,11 @@ class EventKitManager: ObservableObject {
 	private let eventStore = EKEventStore()
 	@Published var ekEvents: [EKEvent] = []
 	
+	// Limit cache size
+	private let maxCacheSize = 3
 	// Cache events keyed by year.
 	private var eventsCache: [Int: [EKEvent]] = [:]
+	private var cacheYearOrder: [Int] = [] // Track order for cache cleanup
 	
 	func requestAccess(forYear year: Int) {
 		eventStore.requestFullAccessToEvents { [weak self] (granted, error) in
@@ -33,8 +36,23 @@ class EventKitManager: ObservableObject {
 	
 	func fetchEkEventsAsync(forYear year: Int) async -> [EKEvent] {
 		if let cached = eventsCache[year] {
+			// Move this year to the end of the order (most recently used)
+			if let index = cacheYearOrder.firstIndex(of: year) {
+				cacheYearOrder.remove(at: index)
+			}
+			cacheYearOrder.append(year)
 			return cached
 		}
+		
+		// Manage cache size
+		if cacheYearOrder.count >= maxCacheSize {
+			// Remove oldest cache entry
+			if let oldestYear = cacheYearOrder.first {
+				eventsCache.removeValue(forKey: oldestYear)
+				cacheYearOrder.removeFirst()
+			}
+		}
+		
 		return await withUnsafeContinuation { continuation in
 			let calendars = eventStore.calendars(for: .event)
 			var dateComponents = DateComponents()
@@ -50,8 +68,18 @@ class EventKitManager: ObservableObject {
 			
 			let predicate = eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: calendars)
 			let events = eventStore.events(matching: predicate)
+			
+			// Add to cache and order list
 			eventsCache[year] = events
+			cacheYearOrder.append(year)
+			
 			continuation.resume(returning: events)
 		}
+	}
+	
+	// Method to clear cache
+	func clearCache() {
+		eventsCache.removeAll()
+		cacheYearOrder.removeAll()
 	}
 }

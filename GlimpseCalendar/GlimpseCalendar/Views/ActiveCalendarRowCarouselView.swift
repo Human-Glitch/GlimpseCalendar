@@ -15,11 +15,12 @@ struct ActiveCalendarRowCarouselView: View {
 	
 	let calendarDays: [CalendarDay]
 	let row: Int
+	let events: [Event] // Add events parameter
 	
 	// Compute calendarItems once per render cycle.
 	private var calendarItems: [CalendarItemView] {
 		calendarDays.enumerated().map { (index, day) in
-			CalendarItemView(weekDay: day.weekDay, date: day.date, index: index)
+			CalendarItemView(weekDay: day.weekDay, date: day.date, index: index, events: events)
 		}
 	}
 	

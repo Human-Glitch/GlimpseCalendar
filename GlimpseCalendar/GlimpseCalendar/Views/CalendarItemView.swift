@@ -18,8 +18,8 @@ struct CalendarItemView: View, Identifiable, Equatable {
 	@State private var isPresented = false
 	@State private var eventToEdit: Event?
 	
-	@Query(sort: \Event.startTime)
-	private var events: [Event]
+	// Remove individual Query subscription
+	let events: [Event]
 	
 	var dayNumber: String {
 		return CalendarItemView.dateFormatter.string(from: date)
@@ -43,7 +43,7 @@ struct CalendarItemView: View, Identifiable, Equatable {
 			
 			VStack{
 				Spacer(minLength: 30)
-				List(fetchEvents(events: events), id: \.self) { event in
+				List(fetchEvents(), id: \.self) { event in
 					EventCellView(event: event)
 						.onTapGesture {
 							eventToEdit = event
@@ -100,19 +100,20 @@ struct CalendarItemView: View, Identifiable, Equatable {
 		}
 	}
 	
-	func fetchEvents(events: [Event]) -> [Event] {
-		let dayEvents = events.filter { dayEvent in
-			dayEvent.startTime.formattedTime(format: "yyyy-MM-dd") == date.formattedTime(format: "yyyy-MM-dd")
+	func fetchEvents() -> [Event] {
+		// Use cached date format string for efficiency
+		let dateString = date.formattedTime(format: "yyyy-MM-dd")
+		return events.filter { dayEvent in
+			dayEvent.startTime.formattedTime(format: "yyyy-MM-dd") == dateString
 		}
-		
-		return dayEvents
 	}
 }
 
+// Update the preview to match new parameters
 #Preview {
 	Group {
 		VStack {
-			CalendarItemView(weekDay: "MON", date: Date(), index: 0)
+			CalendarItemView(weekDay: "MON", date: Date(), index: 0, events: [])
 		}
 	}
 }

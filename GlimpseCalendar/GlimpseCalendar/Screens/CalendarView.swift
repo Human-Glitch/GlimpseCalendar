@@ -15,7 +15,8 @@ struct CalendarView: View {
 	@Query(sort: \Event.startTime)
 	private var existingEvents: [Event]
 	
-	@ObservedObject var eventKitManager = EventKitManager()
+	// Use EnvironmentObject for EventKitManager to ensure single instance
+	@EnvironmentObject var eventKitManager: EventKitManager
 	
 	@State var selectedRow = -1
 	@State var selectedItemID: Int? = nil  
@@ -25,10 +26,6 @@ struct CalendarView: View {
 	
 	private var today = Date()
 	private var calendarYear = CalendarFactory.getCalendarYear(for: Date())
-	
-	init() {
-		eventKitManager.requestAccess(forYear: calendarYear.year)
-	}
 	
 	var body: some View {
 		VStack(alignment: .center, spacing: 5){
@@ -111,6 +108,9 @@ struct CalendarView: View {
 			
 			Spacer()
 		}
+			.onAppear {
+				eventKitManager.requestAccess(forYear: calendarYear.year)
+			}
 		.onChange(of: eventKitManager.ekEvents) { oldEvents, newEvents in
 			if !self.synced {
 				self.syncCalendarWithEventKit()
@@ -127,13 +127,16 @@ struct CalendarView: View {
 	}
 	
 	func syncCalendarWithEventKit() {
-		let events = eventKitManager.ekEvents.map { self.convertToEvent(ekEvent: $0) }
+		// Use a Set for more efficient comparisons
+		let existingEventKeys = Set(existingEvents.map { 
+			"\($0.name)|\($0.startTime.timeIntervalSince1970)|\($0.endTime.timeIntervalSince1970)" 
+		})
 		
-		for event in events {
-			if !self.existingEvents.contains(where: {
-				$0.name == event.name &&
-				$0.startTime == event.startTime &&
-				$0.endTime == event.endTime }) {
+		for ekEvent in eventKitManager.ekEvents {
+			let event = convertToEvent(ekEvent: ekEvent)
+			let eventKey = "\(event.name)|\(event.startTime.timeIntervalSince1970)|\(event.endTime.timeIntervalSince1970)"
+			
+			if !existingEventKeys.contains(eventKey) {
 				self.modelContext.insert(event)
 			}
 		}
@@ -159,7 +162,8 @@ struct CalendarView: View {
 						selectedRow: $selectedRow,
 						selectedIndex: $selectedIndex,
 						calendarDays: calendarWeek.calendarDays,
-						row: calendarWeek.weekNumber)
+						row: calendarWeek.weekNumber,
+						events: existingEvents) // Pass events
 				)
 				views.append(view)
 			} else {
@@ -190,4 +194,5 @@ struct CalendarView: View {
 
 #Preview {
 	CalendarView()
+		.environmentObject(EventKitManager())
 }

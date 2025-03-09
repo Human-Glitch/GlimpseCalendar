@@ -17,9 +17,13 @@ struct GlimpseCalendarApp: App {
 		return container
 	}()
 	
+	// Create a single instance of EventKitManager
+	let eventKitManager = EventKitManager()
+	
     var body: some Scene {
         WindowGroup {
 			CalendarView()
+				.environmentObject(eventKitManager)
         }
 		.modelContainer(container)
     }
