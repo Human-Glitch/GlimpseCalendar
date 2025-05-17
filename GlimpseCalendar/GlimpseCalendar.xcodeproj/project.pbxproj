@@ -33,8 +33,26 @@
 		E7E32A5E2DD836A90000924B /* CalendarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E32A592DD836A90000924B /* CalendarItemView.swift */; };
 		E7E32A5F2DD836A90000924B /* ActiveCalendarRowCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E32A582DD836A90000924B /* ActiveCalendarRowCarouselView.swift */; };
 		E7E32A632DD837100000924B /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E32A622DD837100000924B /* DataService.swift */; };
+		E7E32A9B2DD845590000924B /* DataServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E32A952DD845590000924B /* DataServiceTests.swift */; };
+		E7E32A9C2DD845590000924B /* CalendarViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E32A942DD845590000924B /* CalendarViewModelTests.swift */; };
+		E7E32A9D2DD845590000924B /* GlimpseCalendarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E32A982DD845590000924B /* GlimpseCalendarTests.swift */; };
+		E7E32A9E2DD845590000924B /* EventViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E32A972DD845590000924B /* EventViewModelTests.swift */; };
+		E7E32A9F2DD845590000924B /* EventKitManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E32A962DD845590000924B /* EventKitManagerTests.swift */; };
+		E7E32AA02DD845590000924B /* SettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E32A992DD845590000924B /* SettingsViewModelTests.swift */; };
+		E7E32AA22DD845F00000924B /* MockEventKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E32AA12DD845E50000924B /* MockEventKitManager.swift */; };
+		E7E32AA52DD84A830000924B /* MockDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E32AA42DD84A830000924B /* MockDataService.swift */; };
 		E7E757912C0C3577000C8B63 /* EventKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E757902C0C3577000C8B63 /* EventKitManager.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E7E32A792DD8443C0000924B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E7B21D2F2B9447A100D4380E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E7B21D362B9447A100D4380E;
+			remoteInfo = GlimpseCalendar;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		E7350B6D2BE08FB6004CB19E /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -58,6 +76,16 @@
 		E7E32A592DD836A90000924B /* CalendarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarItemView.swift; sourceTree = "<group>"; };
 		E7E32A5A2DD836A90000924B /* InactiveCalendarRowCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InactiveCalendarRowCarouselView.swift; sourceTree = "<group>"; };
 		E7E32A622DD837100000924B /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
+		E7E32A752DD8443C0000924B /* GlimpseCalendarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GlimpseCalendarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E7E32A942DD845590000924B /* CalendarViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModelTests.swift; sourceTree = "<group>"; };
+		E7E32A952DD845590000924B /* DataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataServiceTests.swift; sourceTree = "<group>"; };
+		E7E32A962DD845590000924B /* EventKitManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventKitManagerTests.swift; sourceTree = "<group>"; };
+		E7E32A972DD845590000924B /* EventViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModelTests.swift; sourceTree = "<group>"; };
+		E7E32A982DD845590000924B /* GlimpseCalendarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlimpseCalendarTests.swift; sourceTree = "<group>"; };
+		E7E32A992DD845590000924B /* SettingsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelTests.swift; sourceTree = "<group>"; };
+		E7E32AA12DD845E50000924B /* MockEventKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEventKitManager.swift; sourceTree = "<group>"; };
+		E7E32AA32DD847E10000924B /* GlimpseCalendar.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = GlimpseCalendar.xctestplan; sourceTree = "<group>"; };
+		E7E32AA42DD84A830000924B /* MockDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataService.swift; sourceTree = "<group>"; };
 		E7E757902C0C3577000C8B63 /* EventKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventKitManager.swift; sourceTree = "<group>"; };
 		E7E757922C0C39CA000C8B63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -74,6 +102,13 @@
 				E7B21D512B959FE500D4380E /* HashTreeCollections in Frameworks */,
 				E7B21D4F2B959FE500D4380E /* DequeModule in Frameworks */,
 				E7B21D572B959FE500D4380E /* _RopeModule in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E7E32A722DD8443C0000924B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,6 +134,8 @@
 		E7B21D2E2B9447A100D4380E = {
 			isa = PBXGroup;
 			children = (
+				E7E32AA32DD847E10000924B /* GlimpseCalendar.xctestplan */,
+				E7E32A9A2DD845590000924B /* GlimpseCalendarTests */,
 				E7B21D392B9447A100D4380E /* GlimpseCalendar */,
 				E7B21D382B9447A100D4380E /* Products */,
 			);
@@ -108,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				E7B21D372B9447A100D4380E /* GlimpseCalendar.app */,
+				E7E32A752DD8443C0000924B /* GlimpseCalendarTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -188,6 +226,21 @@
 			path = Calendar;
 			sourceTree = "<group>";
 		};
+		E7E32A9A2DD845590000924B /* GlimpseCalendarTests */ = {
+			isa = PBXGroup;
+			children = (
+				E7E32AA42DD84A830000924B /* MockDataService.swift */,
+				E7E32AA12DD845E50000924B /* MockEventKitManager.swift */,
+				E7E32A942DD845590000924B /* CalendarViewModelTests.swift */,
+				E7E32A952DD845590000924B /* DataServiceTests.swift */,
+				E7E32A962DD845590000924B /* EventKitManagerTests.swift */,
+				E7E32A972DD845590000924B /* EventViewModelTests.swift */,
+				E7E32A982DD845590000924B /* GlimpseCalendarTests.swift */,
+				E7E32A992DD845590000924B /* SettingsViewModelTests.swift */,
+			);
+			path = GlimpseCalendarTests;
+			sourceTree = "<group>";
+		};
 		E7E7578F2C0C3512000C8B63 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -226,6 +279,26 @@
 			productReference = E7B21D372B9447A100D4380E /* GlimpseCalendar.app */;
 			productType = "com.apple.product-type.application";
 		};
+		E7E32A742DD8443C0000924B /* GlimpseCalendarTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E7E32A7B2DD8443C0000924B /* Build configuration list for PBXNativeTarget "GlimpseCalendarTests" */;
+			buildPhases = (
+				E7E32A712DD8443C0000924B /* Sources */,
+				E7E32A722DD8443C0000924B /* Frameworks */,
+				E7E32A732DD8443C0000924B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E7E32A7A2DD8443C0000924B /* PBXTargetDependency */,
+			);
+			name = GlimpseCalendarTests;
+			packageProductDependencies = (
+			);
+			productName = GlimpseCalendarTests;
+			productReference = E7E32A752DD8443C0000924B /* GlimpseCalendarTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -233,11 +306,16 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1520;
+				LastSwiftUpdateCheck = 1630;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					E7B21D362B9447A100D4380E = {
 						CreatedOnToolsVersion = 15.2;
+					};
+					E7E32A742DD8443C0000924B = {
+						CreatedOnToolsVersion = 16.3;
+						LastSwiftMigration = 1630;
+						TestTargetID = E7B21D362B9447A100D4380E;
 					};
 				};
 			};
@@ -258,6 +336,7 @@
 			projectRoot = "";
 			targets = (
 				E7B21D362B9447A100D4380E /* GlimpseCalendar */,
+				E7E32A742DD8443C0000924B /* GlimpseCalendarTests */,
 			);
 		};
 /* End PBXProject section */
@@ -269,6 +348,13 @@
 			files = (
 				E7B21D432B9447A200D4380E /* Preview Assets.xcassets in Resources */,
 				E7B21D3F2B9447A200D4380E /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E7E32A732DD8443C0000924B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,7 +386,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E7E32A712DD8443C0000924B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E7E32AA22DD845F00000924B /* MockEventKitManager.swift in Sources */,
+				E7E32A9B2DD845590000924B /* DataServiceTests.swift in Sources */,
+				E7E32A9C2DD845590000924B /* CalendarViewModelTests.swift in Sources */,
+				E7E32A9D2DD845590000924B /* GlimpseCalendarTests.swift in Sources */,
+				E7E32A9E2DD845590000924B /* EventViewModelTests.swift in Sources */,
+				E7E32AA52DD84A830000924B /* MockDataService.swift in Sources */,
+				E7E32A9F2DD845590000924B /* EventKitManagerTests.swift in Sources */,
+				E7E32AA02DD845590000924B /* SettingsViewModelTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E7E32A7A2DD8443C0000924B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E7B21D362B9447A100D4380E /* GlimpseCalendar */;
+			targetProxy = E7E32A792DD8443C0000924B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		E7B21D442B9447A200D4380E /* Debug */ = {
@@ -357,6 +466,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -413,6 +523,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -429,7 +540,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"GlimpseCalendar/Preview Content\"";
-				DEVELOPMENT_TEAM = FF456UPZWC;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -449,7 +560,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 14.2;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = TwoBitFoundry.GlimpseCalendar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -460,6 +571,9 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 18.0;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -473,7 +587,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"GlimpseCalendar/Preview Content\"";
-				DEVELOPMENT_TEAM = FF456UPZWC;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -493,7 +607,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 14.2;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = TwoBitFoundry.GlimpseCalendar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -504,6 +618,57 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 18.0;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		E7E32A7C2DD8443C0000924B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = TwoBitFoundry.GlimpseCalendarTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GlimpseCalendar.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GlimpseCalendar";
+				TVOS_DEPLOYMENT_TARGET = 18.0;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		E7E32A7D2DD8443C0000924B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = TwoBitFoundry.GlimpseCalendarTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GlimpseCalendar.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GlimpseCalendar";
+				TVOS_DEPLOYMENT_TARGET = 18.0;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -524,6 +689,15 @@
 			buildConfigurations = (
 				E7B21D472B9447A200D4380E /* Debug */,
 				E7B21D482B9447A200D4380E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E7E32A7B2DD8443C0000924B /* Build configuration list for PBXNativeTarget "GlimpseCalendarTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E7E32A7C2DD8443C0000924B /* Debug */,
+				E7E32A7D2DD8443C0000924B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

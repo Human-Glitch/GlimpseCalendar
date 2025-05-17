@@ -15,9 +15,38 @@ enum EventKitError: Error {
     case unknown
 }
 
+// Adding Equatable conformance to EventKitError for testing
+extension EventKitError: Equatable {
+    static func == (lhs: EventKitError, rhs: EventKitError) -> Bool {
+        switch (lhs, rhs) {
+        case (.accessDenied, .accessDenied):
+            return true
+        case (.unknown, .unknown):
+            return true
+        case (.fetchFailed, .fetchFailed):
+            // Note: This only checks if both are fetchFailed errors, not the actual underlying error
+            return true
+        default:
+            return false
+        }
+    }
+}
+
 class EventKitManager: ObservableObject {
 	
-	private let eventStore = EKEventStore()
+	private var eventStore = EKEventStore()
+    
+    // Internal method for testing purposes
+    #if DEBUG
+    func setEventStoreForTesting(_ mockStore: EKEventStore) {
+        // Cancel any existing tasks to prevent access to the old store
+        cancellables.removeAll()
+        
+        // Set the new store
+        self.eventStore = mockStore
+    }
+    #endif
+    
 	@Published var ekEvents: [EKEvent] = []
     @Published var authorizationStatus: EKAuthorizationStatus = .notDetermined
     @Published var lastError: EventKitError?
@@ -33,11 +62,7 @@ class EventKitManager: ObservableObject {
     
     init() {
         // Set initial authorization status
-        if #available(iOS 17.0, macOS 14.0, *) {
-            authorizationStatus = EKEventStore.authorizationStatus(for: .event)
-        } else {
-            authorizationStatus = EKEventStore.authorizationStatus(for: .event)
-        }
+        authorizationStatus = EKEventStore.authorizationStatus(for: .event)
         
         // Set up notifications for changes to EventKit
         NotificationCenter.default.publisher(for: .EKEventStoreChanged)
@@ -80,15 +105,7 @@ class EventKitManager: ObservableObject {
     
     // Async/await version of request access
     func requestAccessAsync() async throws -> Bool {
-        if #available(iOS 17.0, macOS 14.0, *) {
-            return try await eventStore.requestFullAccessToEvents()
-        } else {
-            return await withCheckedContinuation { continuation in
-                eventStore.requestFullAccessToEvents { granted, _ in
-                    continuation.resume(returning: granted)
-                }
-            }
-        }
+        return try await eventStore.requestFullAccessToEvents()
     }
 	
 	func fetchEkEventsAsync(forYear year: Int) async -> [EKEvent] {

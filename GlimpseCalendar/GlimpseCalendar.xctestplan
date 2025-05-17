@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "AABBB62E-CAD5-4CB7-9E4E-5985A761905E",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:GlimpseCalendar.xcodeproj",
+        "identifier" : "E7E32A742DD8443C0000924B",
+        "name" : "GlimpseCalendarTests"
+      }
+    }
+  ],
+  "version" : 1
+}
