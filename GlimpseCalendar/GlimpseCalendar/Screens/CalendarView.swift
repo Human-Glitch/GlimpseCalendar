@@ -15,18 +15,28 @@ struct CalendarView: View {
 	@Query(sort: \Event.startTime)
 	private var existingEvents: [Event]
 	
-	// Use EnvironmentObject for EventKitManager to ensure single instance
+	// Use EnvironmentObject for EventKitManager
 	@EnvironmentObject var eventKitManager: EventKitManager
 	
-	@State var selectedRow = -1
-	@State var selectedItemID: Int? = nil  
-	@State var selectedIndex: Int = 0
-	@State var selectedMonth: Date = Date()
-	@State private var synced = false
-	@State private var showSettings = false
+	// Use the CalendarViewModel - change to a StateObject
+	@StateObject private var viewModel: CalendarViewModel
+	
+	// Initialize with dependencies
+	init() {
+		// We'll initialize the view model properly, can't modify self in onAppear
+		let eventKitManager = EventKitManager()
+		
+		// Create a temporary ModelContext for initialization
+		let container = try! ModelContainer(for: Event.self)
+		let context = ModelContext(container)
+		
+		_viewModel = StateObject(wrappedValue: CalendarViewModel(
+			eventKitManager: eventKitManager, 
+			modelContext: context
+		))
+	}
 	
 	private var today = Date()
-	private var calendarYear = CalendarFactory.getCalendarYear(for: Date())
 	
 	var body: some View {
 		NavigationStack {
@@ -39,14 +49,13 @@ struct CalendarView: View {
 						.font(.system(size: 36, weight: .semibold, design: .monospaced))
 						.frame(alignment: .top)
 						.onTapGesture {
-							selectedRow = -1
-							selectedItemID = nil
+							viewModel.clearState()
 						}
 					
 					Spacer()
 					
 					Button {
-						showSettings = true
+						viewModel.showSettings = true
 					} label: {
 						Image(systemName: "gear")
 							.resizable()
@@ -57,7 +66,7 @@ struct CalendarView: View {
 				.padding(.bottom, 0)
 				
 				HStack(alignment: .bottom) {
-					Text(CalendarFactory.getMonthAndYear(for: selectedMonth))
+					Text(CalendarFactory.getMonthAndYear(for: viewModel.selectedMonth))
 						.font(.title)
 						.fontDesign(.monospaced)
 						.fontWeight(.heavy)
@@ -67,8 +76,7 @@ struct CalendarView: View {
 					Spacer()
 					
 					Button {
-						selectedMonth = today
-						clearState()
+						viewModel.goToToday()
 					} label: {
 						Image(systemName: "clock.circle.fill")
 							.resizable()
@@ -78,9 +86,7 @@ struct CalendarView: View {
 					}
 					
 					Button {
-						let previousMonth = Calendar.current.date(byAdding: .month, value: -1, to: selectedMonth)!
-						selectedMonth = previousMonth
-						clearState()
+						viewModel.goToPreviousMonth()
 					} label: {
 						Image(systemName: "chevron.up")
 							.resizable()
@@ -90,9 +96,7 @@ struct CalendarView: View {
 					}
 					
 					Button {
-						let nextMonth = Calendar.current.date(byAdding: .month, value: 1, to: selectedMonth)!
-						selectedMonth = nextMonth
-						clearState()
+						viewModel.goToNextMonth()
 					} label: {
 						Image(systemName: "chevron.down")
 							.resizable()
@@ -112,7 +116,7 @@ struct CalendarView: View {
 				}
 				.frame(width: 400, height: 50)
 				
-				let calendarViews = buildCalendarByMonth(calendarYear: calendarYear, selectedMonth: selectedMonth)
+				let calendarViews = viewModel.buildCalendarByMonth(existingEvents: existingEvents)
 				
 				LazyVStack {
 					ForEach(calendarViews.indices, id: \.self) { index in
@@ -121,95 +125,24 @@ struct CalendarView: View {
 							.transition(.asymmetric(insertion: .scale, removal: .opacity))
 					}
 				}
-				.animation(.bouncy, value: selectedRow)
+				.animation(.bouncy, value: viewModel.selectedRow)
 				
 				Spacer()
 			}
-			.navigationDestination(isPresented: $showSettings) {
+			.navigationDestination(isPresented: $viewModel.showSettings) {
 				SettingsView()
 			}
 			.onAppear {
-				eventKitManager.requestAccess(forYear: calendarYear.year)
+				// We can't reassign the StateObject in onAppear, instead update its properties
+				viewModel.requestCalendarAccess()
 			}
 			.onChange(of: eventKitManager.ekEvents) { oldEvents, newEvents in
-				if !self.synced {
-					self.syncCalendarWithEventKit()
-					self.synced = true
+				if !viewModel.synced {
+					viewModel.syncCalendarWithEventKit(existingEvents: existingEvents)
 				}
 			}
 			.padding([.horizontal, .top], 10)
 		}
-	}
-	
-	private func clearState() {
-		selectedRow = -1
-		selectedItemID = nil
-		selectedIndex = 0
-	}
-	
-	func syncCalendarWithEventKit() {
-		// Use a Set for more efficient comparisons
-		let existingEventKeys = Set(existingEvents.map { 
-			"\($0.name)|\($0.startTime.timeIntervalSince1970)|\($0.endTime.timeIntervalSince1970)" 
-		})
-		
-		for ekEvent in eventKitManager.ekEvents {
-			let event = convertToEvent(ekEvent: ekEvent)
-			let eventKey = "\(event.name)|\(event.startTime.timeIntervalSince1970)|\(event.endTime.timeIntervalSince1970)"
-			
-			if !existingEventKeys.contains(eventKey) {
-				self.modelContext.insert(event)
-			}
-		}
-		
-		do {
-			try self.modelContext.save()
-		} catch {
-			print("Sync failed to save.")
-		}
-	}
-	
-	func buildCalendarByMonth(calendarYear: CalendarYear, selectedMonth: Date) -> [AnyView] {
-		let calendar = Calendar.current
-		let month = calendar.component(.month, from: selectedMonth)
-		
-		var views: [AnyView] = []
-		for calendarWeek in calendarYear.calendarMonths[month - 1].calendarWeeks {
-			
-			if calendarWeek.weekNumber == selectedRow {
-				let view = AnyView(
-					ActiveCalendarRowCarouselView(
-						selectedItemID: $selectedItemID,
-						selectedRow: $selectedRow,
-						selectedIndex: $selectedIndex,
-						calendarDays: calendarWeek.calendarDays,
-						row: calendarWeek.weekNumber,
-						events: existingEvents) // Pass events
-				)
-				views.append(view)
-			} else {
-				let view = AnyView(
-					InactiveCalendarRowCarouselView(
-						selectedRow: $selectedRow,
-						selectedIndex: $selectedIndex,
-						calendarDays: .constant(calendarWeek.calendarDays),
-						row: calendarWeek.weekNumber)
-				)
-				views.append(view)
-			}
-		}
-		
-		return views
-	}
-	
-	func convertToEvent(ekEvent: EKEvent) -> Event {
-		let event = Event(
-			name: ekEvent.title,
-			startTime: ekEvent.startDate,
-			endTime: ekEvent.endDate,
-			location: ekEvent.location ?? "")
-
-		return event
 	}
 }
 

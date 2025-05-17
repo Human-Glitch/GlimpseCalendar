@@ -6,33 +6,36 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct AddEventView: View {
 	@Environment(\.modelContext) var modelContext
 	@Environment(\.dismiss) private var dismiss
+	@StateObject private var viewModel: EventViewModel
 	
-	@State private var name: String = ""
-	@State private var location: String = ""
-	@State var startDate: Date
-	@State var endDate: Date
+	init(startDate: Date, endDate: Date) {
+		// Initialize with default values that will be used throughout
+		_viewModel = StateObject(wrappedValue: EventViewModel(
+			startDate: startDate,
+			endDate: endDate,
+			modelContext: ModelContext(try! ModelContainer(for: Event.self))
+		))
+	}
 
 	var body: some View {
 		Form {
 			Section(header: Text("Add an Event")) {
-				TextField("Name", text: $name)
-				TextField("Location", text: $location)
-				DatePicker("Start Date", selection: $startDate, displayedComponents: [.date, .hourAndMinute])
-				DatePicker("End Date", selection: $endDate, displayedComponents: [.date, .hourAndMinute])
+				TextField("Name", text: $viewModel.name)
+				TextField("Location", text: $viewModel.location)
+				DatePicker("Start Date", selection: $viewModel.startDate, displayedComponents: [.date, .hourAndMinute])
+				DatePicker("End Date", selection: $viewModel.endDate, displayedComponents: [.date, .hourAndMinute])
 			}
 		}
 		
 		HStack{
 			Spacer()
 			Button{
-				let event = Event(name: $name.wrappedValue, startTime: $startDate.wrappedValue, endTime: $endDate.wrappedValue, location: $location.wrappedValue)
-				
-				modelContext.insert(event)
-				
+				viewModel.saveNewEvent()
 				dismiss()
 			} label: {
 				Text("Save Changes")
@@ -43,6 +46,11 @@ struct AddEventView: View {
 			.tint(.blue)
 			
 			Spacer()
+		}
+		.task {
+			// Instead of trying to reassign viewModel in onAppear,
+			// we'll make sure modelContext is correctly used when saving
+			viewModel.updateModelContext(modelContext)
 		}
 	}
 }

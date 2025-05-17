@@ -17,7 +17,7 @@ struct GlimpseCalendarApp: App {
 		return container
 	}()
 	
-	// Create a single instance of EventKitManager
+	// Create a single instance of EventKitManager to be shared across the app
 	let eventKitManager = EventKitManager()
 	
     var body: some Scene {

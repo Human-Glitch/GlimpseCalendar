@@ -11,15 +11,26 @@ import SwiftData
 struct EditEventView: View {
 	@Environment(\.modelContext) var modelContext
 	@Environment(\.dismiss) private var dismiss
+	@StateObject private var viewModel: EventViewModel
 	
-	@Bindable var event: Event
+	// Store the event for reinitializing viewModel
+	private var event: Event
+	
+	init(event: Event) {
+		self.event = event
+		// Initialize with dummy model context, will replace using updateModelContext
+		_viewModel = StateObject(wrappedValue: EventViewModel(
+			event: event,
+			modelContext: ModelContext(try! ModelContainer(for: Event.self))
+		))
+	}
 	
     var body: some View {
 		HStack {
 			Spacer()
 			
 			Button {
-				modelContext.delete(event)
+				viewModel.deleteEvent()
 				dismiss()
 			} label: {
 				Image(systemName: "trash")
@@ -31,17 +42,18 @@ struct EditEventView: View {
 		}
 		
 		Form {
-			Section(header: Text("Add an Event")) {
-				TextField("Name", text: $event.name)
-				TextField("Location", text: $event.location)
-				DatePicker("Start Date", selection: $event.startTime, displayedComponents: [.date, .hourAndMinute])
-				DatePicker("End Date", selection: $event.endTime, displayedComponents: [.date, .hourAndMinute])
+			Section(header: Text("Edit Event")) {
+				TextField("Name", text: $viewModel.name)
+				TextField("Location", text: $viewModel.location)
+				DatePicker("Start Date", selection: $viewModel.startDate, displayedComponents: [.date, .hourAndMinute])
+				DatePicker("End Date", selection: $viewModel.endDate, displayedComponents: [.date, .hourAndMinute])
 			}
 		}
 		
 		HStack{
 			Spacer()
 			Button{
+				viewModel.updateEvent()
 				dismiss()
 			} label: {
 				Text("Done")
@@ -53,9 +65,13 @@ struct EditEventView: View {
 			
 			Spacer()
 		}
+		.task {
+			// Update the modelContext instead of trying to reassign viewModel
+			viewModel.updateModelContext(modelContext)
+		}
     }
 }
 
 #Preview {
-	EditEventView(event: Event(name: "Poo", startTime: Date(), endTime: Date(), location: "Home"))
+	EditEventView(event: Event(name: "Test", startTime: Date(), endTime: Date(), location: "Home"))
 }
