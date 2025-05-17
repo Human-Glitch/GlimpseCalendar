@@ -11,18 +11,32 @@ import SwiftData
 @main
 struct GlimpseCalendarApp: App {
 	
+	// SwiftData container
 	let container: ModelContainer = {
 		let schema = Schema([Event.self])
 		let container = try! ModelContainer(for: schema, configurations: [])
 		return container
 	}()
 	
-	// Create a single instance of EventKitManager to be shared across the app
+	// Create shared service instances - no longer using lazy initialization
 	let eventKitManager = EventKitManager()
+	
+	// Initialize properties in init() instead of using lazy
+	private let dataService: DataService
+	private let calendarViewModel: CalendarViewModel
+	
+	init() {
+		let context = ModelContext(container)
+		self.dataService = DataService(modelContext: context)
+		self.calendarViewModel = CalendarViewModel(
+			eventKitManager: eventKitManager,
+			dataService: dataService
+		)
+	}
 	
     var body: some Scene {
         WindowGroup {
-			CalendarView()
+			CalendarView(viewModel: calendarViewModel)
 				.environmentObject(eventKitManager)
 				.modelContainer(container)
         }

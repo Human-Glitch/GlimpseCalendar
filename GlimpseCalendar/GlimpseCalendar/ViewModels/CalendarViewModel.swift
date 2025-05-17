@@ -20,17 +20,18 @@ class CalendarViewModel: ObservableObject {
     @Published var synced: Bool = false
     @Published var showSettings: Bool = false
     @Published var calendarYear: CalendarYear
+    @Published var error: Error?
     
     // Dependencies
     private var eventKitManager: EventKitManager
-    private var modelContext: ModelContext
+    let dataService: DataService
     
     // Cancellables for managing subscriptions
     private var cancellables = Set<AnyCancellable>()
     
-    init(eventKitManager: EventKitManager, modelContext: ModelContext) {
+    init(eventKitManager: EventKitManager, dataService: DataService) {
         self.eventKitManager = eventKitManager
-        self.modelContext = modelContext
+        self.dataService = dataService
         self.calendarYear = CalendarFactory.getCalendarYear(for: Date())
         
         // Set up observers
@@ -38,8 +39,32 @@ class CalendarViewModel: ObservableObject {
     }
     
     private func setupObservers() {
-        // Example of how we could observe changes to events in a reactive way
-        // This would be implemented when we have a proper Publisher for events
+        // Observe EventKitManager errors
+        eventKitManager.$lastError
+            .compactMap { $0 }
+            .receive(on: RunLoop.main)
+            .sink { [weak self] error in
+                self?.error = error
+            }
+            .store(in: &cancellables)
+            
+        // Subscribe to event changes from DataService
+        dataService.eventChangedPublisher
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                // Refresh UI state by updating the month
+                // This will trigger a rebuild of the calendar views
+                if let currentMonth = self?.selectedMonth {
+                    self?.selectedMonth = currentMonth
+                    
+                    // This is a small delay to ensure the change happens after
+                    // the view dismisses any modal sheets
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        self?.objectWillChange.send()
+                    }
+                }
+            }
+            .store(in: &cancellables)
     }
     
     // MARK: - Public Methods
@@ -49,25 +74,21 @@ class CalendarViewModel: ObservableObject {
     }
     
     func syncCalendarWithEventKit(existingEvents: [Event]) {
-        // Use a Set for more efficient comparisons
-        let existingEventKeys = Set(existingEvents.map { 
-            "\($0.name)|\($0.startTime.timeIntervalSince1970)|\($0.endTime.timeIntervalSince1970)" 
-        })
-        
-        for ekEvent in eventKitManager.ekEvents {
-            let event = convertToEvent(ekEvent: ekEvent)
-            let eventKey = "\(event.name)|\(event.startTime.timeIntervalSince1970)|\(event.endTime.timeIntervalSince1970)"
-            
-            if !existingEventKeys.contains(eventKey) {
-                self.modelContext.insert(event)
-            }
-        }
-        
         do {
-            try self.modelContext.save()
+            let savedCount = try dataService.saveEventsFromEKEvents(
+                eventKitManager.ekEvents,
+                existingEvents: existingEvents
+            )
+            
+            if savedCount > 0 {
+                print("Synced \(savedCount) new events")
+            }
+            
             synced = true
+            error = nil
         } catch {
-            print("Sync failed to save: \(error)")
+            self.error = error
+            print("Sync failed: \(error)")
         }
     }
     
@@ -142,13 +163,28 @@ class CalendarViewModel: ObservableObject {
     
     // MARK: - Helper Methods
     
-    private func convertToEvent(ekEvent: EKEvent) -> Event {
-        let event = Event(
-            name: ekEvent.title,
-            startTime: ekEvent.startDate,
-            endTime: ekEvent.endDate,
-            location: ekEvent.location ?? "")
+    private func getEventsForMonth() {
+        // This method could be used to filter events for the current month view
+        let calendar = Calendar.current
+        let month = calendar.component(.month, from: selectedMonth)
+        let year = calendar.component(.year, from: selectedMonth)
         
-        return event
+        var startComponents = DateComponents()
+        startComponents.year = year
+        startComponents.month = month
+        startComponents.day = 1
+        
+        var endComponents = DateComponents()
+        endComponents.year = year
+        endComponents.month = month + 1
+        endComponents.day = 1
+        
+        guard let startDate = calendar.date(from: startComponents),
+              let endDate = calendar.date(from: endComponents) else {
+            return
+        }
+        
+        // The actual fetching would happen here, using DataService
+        // but we're currently relying on the @Query in the view
     }
 }

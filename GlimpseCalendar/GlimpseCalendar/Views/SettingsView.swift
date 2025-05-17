@@ -1,11 +1,12 @@
 import SwiftUI
+import Combine
 
 struct SettingsView: View {
     @EnvironmentObject var eventKitManager: EventKitManager
     @StateObject private var viewModel: SettingsViewModel
     
     init() {
-        // Initialize the view model with a temporary EventKitManager
+        // Initialize with the passed EventKitManager
         _viewModel = StateObject(wrappedValue: SettingsViewModel(eventKitManager: EventKitManager()))
     }
     
@@ -23,6 +24,13 @@ struct SettingsView: View {
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
+                    
+                    // Display any errors
+                    if let error = viewModel.error {
+                        Text("Error: \(error.localizedDescription)")
+                            .foregroundColor(.red)
+                            .font(.caption)
+                    }
                 }
                 
                 Section(header: Text("About")) {
@@ -31,8 +39,8 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
             .onAppear {
-                // We can't reassign the StateObject, so we'll use the environmentObject directly
-                viewModel.toggleAppleCalendarSync(isEnabled: viewModel.syncWithAppleCalendar)
+                // Update the EventKitManager to use the one from the environment
+                viewModel.updateEventKitManager(eventKitManager)
             }
         }
     }

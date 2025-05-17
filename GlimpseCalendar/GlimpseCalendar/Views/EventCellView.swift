@@ -28,8 +28,10 @@ struct EventCellView: View {
 				Label(event.name, systemImage: "calendar")
 					.lineLimit(1)
 					.minimumScaleFactor(0.8)
-				Label("Home", systemImage: "mappin.and.ellipse")
+				Label(event.location.isEmpty ? "No location" : event.location, systemImage: "mappin.and.ellipse")
 					.bold()
+                    .lineLimit(1)
+					.minimumScaleFactor(0.8)
 			}
 		}
 		.font(.caption)

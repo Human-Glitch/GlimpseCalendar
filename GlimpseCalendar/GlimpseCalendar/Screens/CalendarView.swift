@@ -14,26 +14,20 @@ struct CalendarView: View {
 	
 	@Query(sort: \Event.startTime)
 	private var existingEvents: [Event]
+    
+    // State to trigger calendar refresh
+    @State private var calendarRefreshToggle: Bool = false
+    @State private var forceRefresh: UUID = UUID()
 	
 	// Use EnvironmentObject for EventKitManager
 	@EnvironmentObject var eventKitManager: EventKitManager
 	
-	// Use the CalendarViewModel - change to a StateObject
-	@StateObject private var viewModel: CalendarViewModel
+	// Accept the view model via dependency injection
+	@ObservedObject private var viewModel: CalendarViewModel
 	
-	// Initialize with dependencies
-	init() {
-		// We'll initialize the view model properly, can't modify self in onAppear
-		let eventKitManager = EventKitManager()
-		
-		// Create a temporary ModelContext for initialization
-		let container = try! ModelContainer(for: Event.self)
-		let context = ModelContext(container)
-		
-		_viewModel = StateObject(wrappedValue: CalendarViewModel(
-			eventKitManager: eventKitManager, 
-			modelContext: context
-		))
+	// Initialize with injected viewModel
+	init(viewModel: CalendarViewModel) {
+		self.viewModel = viewModel
 	}
 	
 	private var today = Date()
@@ -123,6 +117,7 @@ struct CalendarView: View {
 						calendarViews[index]
 							.padding(5)
 							.transition(.asymmetric(insertion: .scale, removal: .opacity))
+							.id("\(index)-\(calendarRefreshToggle)-\(forceRefresh)") // More aggressive ID forcing refresh
 					}
 				}
 				.animation(.bouncy, value: viewModel.selectedRow)
@@ -131,9 +126,9 @@ struct CalendarView: View {
 			}
 			.navigationDestination(isPresented: $viewModel.showSettings) {
 				SettingsView()
+					.environmentObject(eventKitManager)
 			}
 			.onAppear {
-				// We can't reassign the StateObject in onAppear, instead update its properties
 				viewModel.requestCalendarAccess()
 			}
 			.onChange(of: eventKitManager.ekEvents) { oldEvents, newEvents in
@@ -141,12 +136,41 @@ struct CalendarView: View {
 					viewModel.syncCalendarWithEventKit(existingEvents: existingEvents)
 				}
 			}
+            // More specific handling of event changes
+            .onReceive(viewModel.dataService.eventChangedPublisher) { changeType in
+                // Different handling based on change type
+                switch changeType {
+                case .added, .deleted:
+                    // Completely regenerate views for adds/deletes
+                    forceRefresh = UUID() // Force a complete refresh
+                    
+                    // Add a slight delay to ensure SwiftData has updated
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        calendarRefreshToggle.toggle()
+                    }
+                    
+                case .updated, .synced:
+                    // For updates, a simple toggle is sufficient
+                    calendarRefreshToggle.toggle()
+                }
+            }
 			.padding([.horizontal, .top], 10)
 		}
+        .id(forceRefresh) // Force the entire view to rebuild when needed
 	}
 }
 
 #Preview {
-	CalendarView()
-		.environmentObject(EventKitManager())
+	let container = try! ModelContainer(for: Event.self)
+	let context = ModelContext(container)
+	let dataService = DataService(modelContext: context)
+	
+	let previewView = CalendarView(viewModel: CalendarViewModel(
+		eventKitManager: EventKitManager(),
+		dataService: dataService
+	))
+	.environmentObject(EventKitManager())
+	.modelContainer(container)
+	
+	return previewView
 }

@@ -13,16 +13,28 @@ struct EditEventView: View {
 	@Environment(\.dismiss) private var dismiss
 	@StateObject private var viewModel: EventViewModel
 	
+    // Add completion handlers
+    var onEventUpdated: (() -> Void)?
+    var onEventDeleted: (() -> Void)?
+    
 	// Store the event for reinitializing viewModel
 	private var event: Event
 	
-	init(event: Event) {
+	init(event: Event, onEventUpdated: (() -> Void)? = nil, onEventDeleted: (() -> Void)? = nil) {
 		self.event = event
-		// Initialize with dummy model context, will replace using updateModelContext
+		
+		// Create a DataService with a temporary ModelContext
+		let container = try! ModelContainer(for: Event.self)
+		let context = ModelContext(container)
+		let dataService = DataService(modelContext: context)
+		
 		_viewModel = StateObject(wrappedValue: EventViewModel(
 			event: event,
-			modelContext: ModelContext(try! ModelContainer(for: Event.self))
+			dataService: dataService
 		))
+        
+        self.onEventUpdated = onEventUpdated
+        self.onEventDeleted = onEventDeleted
 	}
 	
     var body: some View {
@@ -31,7 +43,12 @@ struct EditEventView: View {
 			
 			Button {
 				viewModel.deleteEvent()
-				dismiss()
+                // Add a very short delay to ensure the data is deleted
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                    // Call the completion handler if provided
+                    onEventDeleted?()
+                    dismiss()
+                }
 			} label: {
 				Image(systemName: "trash")
 					.foregroundColor(.red)
@@ -54,7 +71,12 @@ struct EditEventView: View {
 			Spacer()
 			Button{
 				viewModel.updateEvent()
-				dismiss()
+                // Add a very short delay to ensure the data is updated
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                    // Call the completion handler if provided
+                    onEventUpdated?()
+                    dismiss()
+                }
 			} label: {
 				Text("Done")
 					.fontWeight(.semibold)

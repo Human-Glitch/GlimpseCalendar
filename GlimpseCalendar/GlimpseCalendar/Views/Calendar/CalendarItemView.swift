@@ -17,8 +17,9 @@ struct CalendarItemView: View, Identifiable, Equatable {
 	@State private var selectedEvent: Event?
 	@State private var isPresented = false
 	@State private var eventToEdit: Event?
+    @State private var eventsRefreshToggle = false
 	
-	// Remove individual Query subscription
+	// Events list from parent view
 	let events: [Event]
 	
 	var dayNumber: String {
@@ -50,12 +51,22 @@ struct CalendarItemView: View, Identifiable, Equatable {
 						}
 				}
 				.sheet(item: $eventToEdit) { event in
-					EditEventView(event: event)
+					EditEventView(
+                        event: event,
+                        onEventUpdated: {
+                            eventsRefreshToggle.toggle()
+                            NotificationCenter.default.post(name: NSNotification.Name("EventModified"), object: nil)
+                        },
+                        onEventDeleted: {
+                            eventsRefreshToggle.toggle()
+                            NotificationCenter.default.post(name: NSNotification.Name("EventModified"), object: nil)
+                        }
+                    )
 				}
 				.listStyle(.plain)
 				.font(.footnote)
 				.fontWeight(.semibold)
-				
+                .id("events-list-\(eventsRefreshToggle)") // Force list refresh
 			}
 			
 			VStack{
@@ -89,15 +100,24 @@ struct CalendarItemView: View, Identifiable, Equatable {
 							.padding(.trailing, 18)
 					}
 					.sheet(isPresented: $isPresented) {
-						AddEventView(startDate: date, endDate: date)
+						AddEventView(
+                            startDate: date,
+                            endDate: date,
+                            onEventAdded: {
+                                eventsRefreshToggle.toggle()
+                                NotificationCenter.default.post(name: NSNotification.Name("EventModified"), object: nil)
+                            }
+                        )
 					}
 				}
 				.frame(height: 30)
 				
 				Spacer()
 			}
-			
 		}
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("EventModified"))) { _ in
+            eventsRefreshToggle.toggle()
+        }
 	}
 	
 	func fetchEvents() -> [Event] {
